@@ -4,21 +4,31 @@ class Tane::Helpers::Init
   class << self
     def initialize_app
       term.say "Initializing a local Bushido app for this rails app..."
-      make_app_bushido_dir
-      save_envs
-      save_emails
+      if bushido_app_exists?
+        update_app
+      else
+        app = create_app
+        make_app_bushido_dir
+        save_envs(get_app_envs(app['name']))
+        save_emails
+      end
+
       term.say "Finished successfully! Check out .bushido/tane.yml for the env vars if you care, or .bushido/emails.yml to create email templates to test with"
     end
 
+    def update_app
+      save_envs(get_app_envs(bushido_envs['BUSHIDO_NAME']))
+    end
+
     # TODO: Replace envs_template with values retrieved from Bushido side
-    def save_envs
+    def save_envs(env_vars)
       if File.exists?('.bushido/tane.yml')
         if not term.agree('.bushido/tane.yml already exists! Are you sure you want to overwrite it?')
           return
         end
       end
 
-      File.open('.bushido/tane.yml', 'w') { |file| file.puts YAML.dump(envs_template) }
+      File.open('.bushido/tane.yml', 'w') { |file| file.puts YAML.dump(envs_template(env_vars)) }
     end
 
     # TODO: Replace email_template with a template that has every possible field
@@ -32,41 +42,41 @@ class Tane::Helpers::Init
       File.open('.bushido/emails.yml', 'w') { |file| file.puts YAML.dump(emails_template) }
     end
 
-    def envs_template
+    def envs_template(app_envs)
       envs = {}
-      envs['APP_TLD']              = 'bushi.do'
-      envs['BUNDLE_WITHOUT']       = 'development:test'
-      envs['BUSHIDO_APP']          = 'wandering-challenge-78'
-      envs['BUSHIDO_APP_KEY']      = '48b47aa0-f11c-012e-7e31-080027706aa2'
-      envs['BUSHIDO_DOMAIN']       = 'wandering-challenge-78.bushi.do'
-      envs['BUSHIDO_EVENTS']       = '[]'
-      envs['BUSHIDO_HOST']         = 'noshido.com'
-      envs['BUSHIDO_NAME']         = 'wandering-challenge-78'
-      envs['BUSHIDO_PROJECT_NAME'] = 'mockr'
-      envs['BUSHIDO_SALT']         = 'CwN4jQJOrbXFf378jLT5pKOTMndkRBSla0orkpTU7SphN96LpcSD2q03jAl0ikby'
-      envs['BUSHIDO_SUBDOMAIN']    = 'wandering-challenge-78'
-      envs['B_SQL_DB']             = 'mockr_30'
-      envs['B_SQL_PASS']           = 'vagrant'
-      envs['B_SQL_USER']           = 'vagrant'
-      envs['DATABASE_URL']         = 'postgres://hkricsmbsg:DpcE6yS-Wx-W48jC4o-O@ec2-107-22-249-232.compute-1.amazonaws.com/hkricsmbsg'
-      envs['HOSTING_PLATFORM']     = 'bushido'
-      envs['LANG']                 = 'en_US.UTF-8'
-      envs['PUBLIC_URL']           = 'http://wandering-challenge-78.noshido.com/'
-      envs['RACK_ENV']             = 'development'
-      envs['RAILS_ENV']            = 'development'
-      envs['S3_ACCESS_KEY_ID']     = 'AKIAJ6QKIWRXIJQKROZA'
-      envs['S3_ARN']               = 'arn:aws:iam::853820356859:user/wandering-challenge-78'
-      envs['S3_BUCKET']            = 'bulk.bushido'
-      envs['S3_PREFIX']            = 'wandering-challenge-78'
-      envs['S3_SECRET_ACCESS_KEY'] = 'QC2pNo66ZbwBDxstu6/ngRPHzGnPZSxtOmyTN5oj'
-      envs['SHARED_DATABASE_URL']  = 'postgres://hkricsmbsg:DpcE6yS-Wx-W48jC4o-O@ec2-107-22-249-232.compute-1.amazonaws.com/hkricsmbsg'
-      envs['SMTP_AUTHENTICATION']  = 'plain'
-      envs['SMTP_DOMAIN']          = 'wandering-challenge-78.bushi.do'
-      envs['SMTP_PASSWORD']        = 'example'
-      envs['SMTP_PORT']            = '587'
-      envs['SMTP_SERVER']          = 'smtp.gmail.com'
-      envs['SMTP_TLS']             = 'true'
-      envs['SMTP_USER']            = 'example@wandering-challenge-78.bushi.do'
+      envs['APP_TLD']              = app_envs['APP_TLD']
+      envs['BUNDLE_WITHOUT']       = app_envs['BUNDLE_WITHOUT']
+      envs['BUSHIDO_APP']          = app_envs['BUSHIDO_APP']
+      envs['BUSHIDO_APP_KEY']      = app_envs['BUSHIDO_APP_KEY']
+      envs['BUSHIDO_DOMAIN']       = app_envs['BUSHIDO_DOMAIN']
+      envs['BUSHIDO_EVENTS']       = app_envs['BUSHIDO_EVENTS']
+      envs['BUSHIDO_HOST']         = app_envs['BUSHIDO_HOST']
+      envs['BUSHIDO_NAME']         = app_envs['BUSHIDO_NAME']
+      envs['BUSHIDO_PROJECT_NAME'] = app_envs['BUSHIDO_PROJECT_NAME']
+      envs['BUSHIDO_SALT']         = app_envs['BUSHIDO_SALT']
+      envs['BUSHIDO_SUBDOMAIN']    = app_envs['BUSHIDO_SUBDOMAIN']
+      envs['B_SQL_DB']             = app_envs['B_SQL_DB']
+      envs['B_SQL_PASS']           = app_envs['B_SQL_PASS']
+      envs['B_SQL_USER']           = app_envs['B_SQL_USER']
+      envs['DATABASE_URL']         = app_envs['DATABASE_URL']
+      envs['HOSTING_PLATFORM']     = app_envs['HOSTING_PLATFORM']
+      envs['LANG']                 = app_envs['LANG']
+      envs['PUBLIC_URL']           = app_envs['PUBLIC_URL']
+      envs['RACK_ENV']             = app_envs['RACK_ENV']
+      envs['RAILS_ENV']            = app_envs['RAILS_ENV']
+      envs['S3_ACCESS_KEY_ID']     = app_envs['S3_ACCESS_KEY_ID']
+      envs['S3_ARN']               = app_envs['S3_ARN']
+      envs['S3_BUCKET']            = app_envs['S3_BUCKET']
+      envs['S3_PREFIX']            = app_envs['S3_PREFIX']
+      envs['S3_SECRET_ACCESS_KEY'] = app_envs['S3_SECRET_ACCESS_KEY']
+      envs['SHARED_DATABASE_URL']  = app_envs['SHARED_DATABASE_URL']
+      envs['SMTP_AUTHENTICATION']  = app_envs['SMTP_AUTHENTICATION']
+      envs['SMTP_DOMAIN']          = app_envs['SMTP_DOMAIN']
+      envs['SMTP_PASSWORD']        = app_envs['SMTP_PASSWORD']
+      envs['SMTP_PORT']            = app_envs['SMTP_PORT']
+      envs['SMTP_SERVER']          = app_envs['SMTP_SERVER']
+      envs['SMTP_TLS']             = app_envs['SMTP_TLS']
+      envs['SMTP_USER']            = app_envs['SMTP_USER']
       envs
     end
 
@@ -80,6 +90,16 @@ class Tane::Helpers::Init
       email['example_email_1']['cc']     = ['cc-1@example.org', 'cc-2@example.org']
       email['example_email_1']['body']   = 'example email body'
       email
+    end
+
+    def create_app
+      term.say("RestClient.post('#{bushido_url}/apps.json', #{{:url => 'https://github.com/Bushido/tane.git', :platform => 'developer', :authentication_token => password}.inspect}")
+      JSON(RestClient.post("#{bushido_url}/apps.json", {:app => {:url => "https://github.com/Bushido/tane.git", :platform => "developer"}, :authentication_token => password}))
+    end
+
+    def get_app_envs(app_name)
+      result = JSON(RestClient.get("#{bushido_url}/apps/#{app_name}.json", {:params => {:authentication_token => password}}))
+      result["app"]["full_app_env_vars"]
     end
   end
 end

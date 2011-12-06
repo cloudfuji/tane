@@ -8,21 +8,27 @@ class Tane::Commands::Login < Tane::Commands::Base
       puts "Let's log you in:"
       email, password = prompt_for_credentials
       puts "contacting bushido, please wait..."
-      auth_token = Tane::Helpers::Bushido.verify_credentials(email, password)
+      auth_token, errors = Tane::Helpers::Bushido.verify_credentials(email, password)
 
       if auth_token.nil?
         term.say("Invalid username, or password, sorry! Don't worry though, we'll get you through this!")
         if term.agree("would you like to try signing up with those credentials?")
           term.say "Trying to sign up with those credentials..."
-          auth_token = Tane::Helpers::Bushido.signup(email, password)
+
+          auth_token, errors = Tane::Helpers::Bushido.signup(email, password)
           if auth_token.nil?
-            term.say "Couldn't signup, maybe there was an error? "
-            # TODO: show the errors
+            term.say "Couldn't signup - "
+            errors.each do |field|
+              term.say "\n"
+              field.last.each do |error|
+                term.say "  #{field.first} #{error} \n"
+              end
+            end
+            
             exit
           else
             term.say "Ok, you're signed up as #{email}!"
           end
-
         else
           term.say "Please try one of the following:"
           term.say "\t1. Log in again with different credentials"

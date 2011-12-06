@@ -22,6 +22,10 @@ module Tane
       def opts
         @opts ||= {}
       end
+
+      def bushido_url
+        ENV['BUSHIDO_URL'] || "http://bushi.do"
+      end
       
       def bushido_dir
         "#{ENV['HOME']}/.bushido"
