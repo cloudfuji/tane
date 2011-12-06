@@ -7,11 +7,17 @@ class Tane::Commands::Signup < Tane::Commands::Base
 
       email, password = prompt_for_credentials
 
-      auth_token = Tane::Helpers::Bushido.signup(email, password)
+      auth_token, errors = Tane::Helpers::Bushido.signup(email, password)
 
       if auth_token.nil?
-        term.say "Couldn't signup, maybe there was an error? "
-        # TODO: show the errors
+        term.say "Couldn't signup - "
+        errors.each do |field|
+          term.say "\n"
+          field.last.each do |error|
+            term.say "  #{field.first} #{error} \n"
+          end
+        end
+        
         exit
       else
         term.say "Ok, you're signed up as #{email}!"

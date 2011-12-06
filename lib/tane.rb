@@ -9,7 +9,9 @@ require "tane/parser"
 
 # Load all the available commands
 $commands = []
-Dir.glob("./lib/tane/commands/*.rb").each do |command|
+
+Dir.glob(File.dirname(__FILE__) + "/tane/commands/*.rb").each do |command|
+  puts "#{command}"
   $commands << command.split("/").last.split('.rb').first
 end
 
@@ -23,7 +25,8 @@ module Tane
 end
 
 $helpers = []
-Dir.glob("./lib/tane/helpers/*.rb").each do |helper|
+
+Dir.glob(File.dirname(__FILE__) + "/tane/helpers/*.rb").each do |helper|
   $helpers << helper.split("/").last.split('_helper.rb').first
 end
 
@@ -35,3 +38,4 @@ module Tane
     end
   end
 end
+

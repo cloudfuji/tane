@@ -22,6 +22,10 @@ module Tane
       def opts
         @opts ||= OpenStruct.new
       end
+
+      def bushido_url
+        ENV['BUSHIDO_URL'] || "http://bushi.do"
+      end
       
       def bushido_dir
         "#{ENV['HOME']}/.bushido"
@@ -41,6 +45,10 @@ module Tane
 
       def credentials
         YAML.load(ERB.new(File.read( credentials_file_path )).result)
+      end
+
+      def destroy_credentials
+        File.delete(credentials_file_path)
       end
 
       def logged_in?
