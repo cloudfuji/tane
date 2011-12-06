@@ -5,6 +5,7 @@ gemspec
 
 group :development, :test do
   gem "rspec"
+  gem "awesome_print"
 end
 
 group :test do
