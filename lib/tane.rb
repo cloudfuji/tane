@@ -11,7 +11,6 @@ require "tane/parser"
 $commands = []
 
 Dir.glob(File.dirname(__FILE__) + "/tane/commands/*.rb").each do |command|
-  puts "#{command}"
   $commands << command.split("/").last.split('.rb').first
 end
 
