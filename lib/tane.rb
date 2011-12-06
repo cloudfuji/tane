@@ -90,10 +90,3 @@ module Tane
     end
   end
 end
-
-
-options = Tane::Parser.parse(ARGV)
-command = ARGV.shift.strip rescue 'help'
-command = 'help' if command == ''
-
-eval("Tane::Commands::#{command.capitalize}").fire(options, ARGV)
