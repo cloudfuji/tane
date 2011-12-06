@@ -1,10 +1,14 @@
 class Tane::Commands::Exec < Tane::Commands::Base
   def self.process(args)
-    ap bushido_envs
+
     bushido_envs.each_pair do |key, value|
       ENV[key] = value
     end
 
-    exec args.join(' ')
+    Dir.chdir(Dir.pwd) do |dir|
+      command = args.join(' ')
+      puts command
+      exec command
+    end
   end
 end

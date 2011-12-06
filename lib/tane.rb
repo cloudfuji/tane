@@ -7,7 +7,8 @@ require 'highline'
 
 # Load all the available commands
 $commands = []
-Dir.glob("./lib/commands/*.rb").each do |command|
+
+Dir.glob(File.dirname(__FILE__) + "/commands/*.rb").each do |command|
   $commands << command.split("/").last.split('.rb').first
 end
 
@@ -21,7 +22,7 @@ module Tane
 end
 
 $helpers = []
-Dir.glob("./lib/helpers/*.rb").each do |helper|
+Dir.glob(File.dirname(__FILE__) + "/helpers/*.rb").each do |helper|
   $helpers << helper.split("/").last.split('_helper.rb').first
 end
 
@@ -90,3 +91,4 @@ module Tane
     end
   end
 end
+

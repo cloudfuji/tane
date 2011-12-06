@@ -1,4 +1,4 @@
-class Tane::Commands::Update < Tane::Commands::Base
+class Tane::Commands::Refresh < Tane::Commands::Base
   def self.process(args)
     if in_rails_dir?
       Tane::Helpers::Init.update_app

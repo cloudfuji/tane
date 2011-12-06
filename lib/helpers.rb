@@ -47,6 +47,10 @@ module Tane
         YAML.load(ERB.new(File.read( credentials_file_path )).result)
       end
 
+      def destroy_credentials
+        File.delete(credentials_file_path)
+      end
+
       def logged_in?
         File.exists?(credentials_file_path)
       end
