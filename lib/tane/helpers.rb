@@ -20,7 +20,7 @@ module Tane
       end
       
       def opts
-        @opts ||= {}
+        @opts ||= OpenStruct.new
       end
       
       def bushido_dir
