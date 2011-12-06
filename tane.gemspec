@@ -5,11 +5,11 @@ require "tane/version"
 Gem::Specification.new do |s|
   s.name        = "tane"
   s.version     = Tane::VERSION
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
+  s.authors     = ["Sean Grove"]
+  s.email       = ["s@gobushido.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Enables local development of Bushido apps}
+  s.description = %q{This gem provides all the tools necessary to develop a rails app meant for deployment on Bushido locally}
 
   s.rubyforge_project = "tane"
 
@@ -19,6 +19,9 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
-  # s.add_runtime_dependency "rest-client"
+  s.add_development_dependency "rspec"
+  s.add_development_dependency "awesome_print"
+  s.add_runtime_dependency "erubis"
+  s.add_runtime_dependency "rest-client"
+  s.add_runtime_dependency "highline"
 end
