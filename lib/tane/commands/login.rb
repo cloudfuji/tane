@@ -1,4 +1,4 @@
-require 'commands/app'
+require 'tane/commands/app'
 
 class Tane::Commands::Login < Tane::Commands::Base
   class << self
