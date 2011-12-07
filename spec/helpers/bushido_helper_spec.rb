@@ -78,4 +78,10 @@ describe Tane::Helpers::Bushido do
     end
   end
 
+  describe "authenticate_user" do
+    it "should warn the user if credentials already exist" do
+      Tane::Helpers::Bushido.should_receive(:warn_if_credentials)
+      Tane::Helpers::Bushido.authenticate_user("email", "password")
+    end
+  end
 end
