@@ -28,7 +28,7 @@ class Tane::Helpers::Init
         end
       end
 
-      File.open('.bushido/tane.yml', 'w') { |file| file.puts YAML.dump(envs_template(env_vars)) }
+      File.open('.bushido/tane.yml', 'w+') { |file| file.puts YAML.dump(envs_template(env_vars)) }
     end
 
     # TODO: Replace email_template with a template that has every possible field

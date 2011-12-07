@@ -6,6 +6,14 @@ class Tane::Commands::Exec < Tane::Commands::Base
     end
 
     command = args.join(' ')
+
+    if command.empty?
+      term.say("please enter a command for tane exec to run. example:")
+      term.say("\t tane exec rails s")
+
+      exit 1
+    end
+
     exec command
 
   end
