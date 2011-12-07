@@ -1,6 +1,13 @@
 require "spec_helper"
+require 'fileutils'
 
 describe Tane::Helpers::Init do
+
+  # TODO: Each test should use mktmp dir instead of running in its own
+  # dir, it's dangerous
+  before(:each) do
+    FileUtils.rm_rf(".bushido")
+  end
 
   it "should include Tane::Helpers" do
     Tane::Helpers::Init.include?(Tane::Helpers).should be_true

@@ -4,6 +4,7 @@ describe Tane::Commands::Init do
 
   describe ".process" do
     it "should initialize an app if it's a rails project" do
+      Tane::Commands::Init.should_receive(:authenticate_user).and_return(true)
       Tane::Commands::Init.should_receive(:in_rails_dir?).and_return(true)
       Tane::Helpers::Init.should_receive(:initialize_app)
 
