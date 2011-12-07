@@ -5,10 +5,8 @@ class Tane::Commands::Exec < Tane::Commands::Base
       ENV[key] = value
     end
 
-    Dir.chdir(Dir.pwd) do |dir|
-      command = args.join(' ')
-      puts command
-      exec command
-    end
+    command = args.join(' ')
+    exec command
+
   end
 end
