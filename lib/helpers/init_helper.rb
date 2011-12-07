@@ -93,7 +93,6 @@ class Tane::Helpers::Init
     end
 
     def create_app
-      term.say("RestClient.post('#{bushido_url}/apps.json', #{{:url => 'https://github.com/Bushido/tane.git', :platform => 'developer', :authentication_token => password}.inspect}")
       JSON(RestClient.post("#{bushido_url}/apps.json", {:app => {:url => "https://github.com/Bushido/tane.git", :platform => "developer"}, :authentication_token => password}))
     end
 

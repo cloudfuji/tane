@@ -5,14 +5,14 @@ class Tane::Commands::Login < Tane::Commands::Base
     def process(args)
       warn_if_credentials
 
-      puts "Let's log you in:"
+      term.say  "Let's connect you with bushido:"
       email, password = prompt_for_credentials
-      puts "contacting bushido, please wait..."
+      term.say "contacting bushido, please wait..."
       auth_token, errors = Tane::Helpers::Bushido.verify_credentials(email, password)
 
       if auth_token.nil?
         term.say("Invalid username, or password, sorry! Don't worry though, we'll get you through this!")
-        if term.agree("would you like to try signing up with those credentials?")
+        if term.agree("would you like to try signing up with those credentials? Y/N")
           term.say "Trying to sign up with those credentials..."
 
           auth_token, errors = Tane::Helpers::Bushido.signup(email, password)
@@ -39,8 +39,8 @@ class Tane::Commands::Login < Tane::Commands::Base
           exit
         end
       end
-      puts "Done!"
-      puts "Saving credentials"
+      term.say "Done!"
+      term.say "Saving credentials"
       save_credentials(email, auth_token)
     end
   end
