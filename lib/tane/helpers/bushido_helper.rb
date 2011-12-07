@@ -1,4 +1,6 @@
 class Tane::Helpers::Bushido
+  include Tane::Helpers
+  
   class << self
     def bushido_url
       ENV['BUSHIDO_URL'] || "http://bushi.do"
@@ -20,9 +22,10 @@ class Tane::Helpers::Bushido
     end
     
     def signup(email, password)
+      term.say "Contacting bushido..."
+      term.say "(using #{bushido_url}/users/create.json)"
+
       begin
-        term.say "Contacting bushido..."
-        term.say "(using #{bushido_url}/users/create.json)"
         result = JSON(RestClient.get("#{bushido_url}/users/create.json", { :params => {:email => email, :password => password }}))
 
         if result['errors'].nil?
@@ -31,8 +34,8 @@ class Tane::Helpers::Bushido
           return nil, result['errors']
         end
       rescue => e
-        if e.responds_to?(:http_body)
-          return nil, JSON(e.http_body)['errors']
+        if e.respond_to?(:http_body)
+          return nil, [["", [JSON(e.http_body)['error']]]]
         end
 
         return nil
@@ -41,7 +44,6 @@ class Tane::Helpers::Bushido
 
     def authenticate_user(email, password)
       warn_if_credentials
-      
     end
 
   end
