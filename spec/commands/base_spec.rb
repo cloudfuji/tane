@@ -7,8 +7,8 @@ describe Tane::Commands::Base do
 
   describe ".fire" do
     before :each do
-      opts = {:foo => "bar"}
-      args = {:foo => "bar"}
+      @opts = {:foo => "bar"}
+      @args = ["foo", "bar"]
     end
 
     it "should process the arguments passed" do
