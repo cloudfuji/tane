@@ -84,12 +84,19 @@ module Tane
           FileUtils.mkdir_p '.bushido'
         end
       end
+      
+      def authenticate_user
+        unless logged_in?
+          Tane::Commands::Login.process(:exit => false)
+        end
+      end
 
       def save_credentials(username, password)
         new_credentials = credentials rescue {}
         new_credentials[:username] = username
         new_credentials[:password] = password
-        File.open(credentials_file_path, 'w') { |file| file.puts YAML.dump(new_credentials) }
+        Dir.mkdir(bushido_dir) unless File.exists?(bushido_dir)
+        File.open(credentials_file_path, 'w+') { |file| file.puts YAML.dump(new_credentials) }
       end
 
       def prompt_for_credentials
@@ -100,7 +107,7 @@ module Tane
 
       def warn_if_credentials
         if logged_in?
-          if term.agree("This computer already has the Bushido user '#{username}' logged in, are you sure you would like to proceed? ")
+          if term.agree("This computer already has the Bushido user '#{username}' logged in, are you sure you would like to proceed? Y/N")
             term.say("Ok, continuing along like nothing happened")
           else
             term.say("Phew, I think we might have dodged a bullet there!")
