@@ -123,7 +123,7 @@ EOL
     end
 
     def create_app
-      JSON(RestClient.post("#{bushido_url}/apps.json", {:app => {:url => "https-//github.com/Bushido/tane.git", :platform => "developer"}, :authentication_token => password}))
+      JSON(RestClient.post("#{bushido_url}/apps.json", {:app => {:url => "https://github.com/Bushido/tane.git", :platform => "developer"}, :authentication_token => password}))
     end
 
     def get_app_envs(app_name)
