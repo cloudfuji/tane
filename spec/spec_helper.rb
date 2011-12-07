@@ -8,7 +8,6 @@ require 'rspec'
 require 'tane'
 
 CoverMe.config do |c|
-    c.project.root = File.expand_path('../', __FILE__)
 end
 
 RSpec.configure do |config|

@@ -20,7 +20,7 @@ module Tane
       end
       
       def opts
-        @opts ||= {}
+        @opts ||= OpenStruct.new
       end
 
       def bushido_url
@@ -64,11 +64,21 @@ module Tane
       end
 
       def username
-        credentials[:username]
+        begin
+          return credentials[:username]
+        rescue
+          term.say "Looks like your Bushido credentials file is corrupted - try deleting ~/.bushido/credentials.yml and then logging in again"
+          exit 1
+        end
       end
 
       def password
-        credentials[:password]
+        begin
+          return credentials[:password]
+        rescue
+          term.say "Looks like your Bushido credentials file is corrupted - try deleting ~/.bushido/credentials.yml and then logging in again"
+          exit 1
+        end
       end
 
       def make_global_bushido_dir
