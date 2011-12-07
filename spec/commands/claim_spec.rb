@@ -29,5 +29,3 @@ describe Tane::Commands::Claim do
 
   end
 end
-
-  
