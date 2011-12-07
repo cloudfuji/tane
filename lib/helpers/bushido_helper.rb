@@ -18,11 +18,11 @@ class Tane::Helpers::Bushido
         return nil, ["Couldn't login with those credentials!"]
       end
     end
-
+    
     def signup(email, password)
       begin
-        puts "Contacting bushido..."
-        puts "(using #{bushido_url}/users/create.json)"
+        term.say "Contacting bushido..."
+        term.say "(using #{bushido_url}/users/create.json)"
         result = JSON(RestClient.get("#{bushido_url}/users/create.json", { :params => {:email => email, :password => password }}))
 
         if result['errors'].nil?
@@ -38,5 +38,11 @@ class Tane::Helpers::Bushido
         return nil
       end
     end
+
+    def authenticate_user(email, password)
+      warn_if_credentials
+      
+    end
+
   end
 end
