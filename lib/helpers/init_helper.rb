@@ -39,7 +39,7 @@ class Tane::Helpers::Init
         end
       end
 
-      File.open('.bushido/emails.yml', 'w') { |file| file.puts YAML.dump(emails_template) }
+      File.open('.bushido/emails.yml', 'w') { |file| file.puts email_template_explanation; file.puts YAML.dump(emails_template) }
     end
 
     def envs_template(app_envs)
@@ -84,16 +84,46 @@ class Tane::Helpers::Init
       email = {}
       email['example_email_1'] = {}
 
-      email['example_email_1']['from']   = 'Example Sender <example@example.org>'
-      email['example_email_1']['sender'] = 'sender@example.org'
-      email['example_email_1']['to']     = 'recipient@example.org'
-      email['example_email_1']['cc']     = ['cc-1@example.org', 'cc-2@example.org']
-      email['example_email_1']['body']   = 'example email body'
+      email['example_email_1']['recipient']          = "postmaster@your-app-name.gobushido.com"
+      email['example_email_1']['sender']             = "sender@example.org"
+      email['example_email_1']['from']               = "Example Sender <example.sender@example.org"
+      email['example_email_1']['subject']            = "Example subject"
+      email['example_email_1']['body-plain']         = "Example plain body with no HTML, but with all the quoted conversations"
+      email['example_email_1']['stripped-text']      = "Example stripped text, with no HTML, quotes, or signature"
+      email['example_email_1']['stripped-signature'] = "Example stripped signature with no HTML"
+      email['example_email_1']['body-html']          = "Example body containing <a href='http://example.org'>HTML</a>, and all of the quotes"
+      email['example_email_1']['stripped-html']      = "Example body containing <a href='http://example.org'>HTML</a>, but no quotes or signature "
+      email['example_email_1']['attachment-count']   = "How many attachments the email has"
+      email['example_email_1']['attachment-1']       = "binary blob of file to be sent as attachment-1"
+      email['example_email_1']['timestamp']          = "1323286600"
+
       email
     end
 
+    def email_template_explanation
+      explanation=<<-EOL
+# Email format description
+#
+# 'name':              - name of the email template (used with `tane email 'name'`)
+#   recipient          - Recipient of the message as reported by MAIL TO during SMTP chat.
+#   sender             - Sender of the message as reported by MAIL FROM during SMTP chat. Note- this value may differ from From MIME header.
+#   from               - Sender of the message as reported by From message header, for example Example Sender <example.sender@example.org>".
+#   subject            - Subject string.
+#   body-plain         - Text Version of the email. This field is always present. If the incoming message only has HTML body, this will be the text representation of it.
+#   stripped-text      - Text Version of the message without quoted parts and signature block (if found).
+#   stripped-signature - The Signature block stripped from the plain text message (if found).
+#   body-html          - HTML version of the message, if message was multipart. Note that all parts of the message will be posted, not just text/html. For instance if a message arrives with "foo" part it will be posted as "body-foo".
+#   stripped-html      - HTML version of the message, without quoted parts.
+#   attachment-count   - How many attachments the message has.
+#   attachment-x       - Attached file ('x' stands for number of the attachment). Attachments are handled as file uploads, encoded as multipart/form-data.
+#   timestamp          - Number of second passed since January 1, 1970
+
+
+EOL
+    end
+
     def create_app
-      JSON(RestClient.post("#{bushido_url}/apps.json", {:app => {:url => "https://github.com/Bushido/tane.git", :platform => "developer"}, :authentication_token => password}))
+      JSON(RestClient.post("#{bushido_url}/apps.json", {:app => {:url => "https-//github.com/Bushido/tane.git", :platform => "developer"}, :authentication_token => password}))
     end
 
     def get_app_envs(app_name)
