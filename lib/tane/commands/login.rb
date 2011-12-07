@@ -41,7 +41,7 @@ class Tane::Commands::Login < Tane::Commands::Base
     def signup_and_notify(email, password)
       term.say "Trying to sign up with those credentials..."
       auth_token, errors = Tane::Helpers::Bushido.signup(email, password)
-      
+
       display_errors_and_exit(errors) if auth_token.nil?
       
       term.say "Ok, you're signed up as #{email}!"
@@ -51,6 +51,7 @@ class Tane::Commands::Login < Tane::Commands::Base
     
     def display_errors_and_exit(errors)
       term.say "Couldn't signup - "
+
       errors.each do |field|
         term.say "\n"
         field.last.each do |error|

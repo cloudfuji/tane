@@ -34,8 +34,8 @@ class Tane::Helpers::Bushido
           return nil, result['errors']
         end
       rescue => e
-        if e.responds_to?(:http_body)
-          return nil, JSON(e.http_body)['errors']
+        if e.respond_to?(:http_body)
+          return nil, [["", [JSON(e.http_body)['error']]]]
         end
 
         return nil

@@ -12,6 +12,7 @@ describe Tane::Commands::Init do
     end
 
     it "should display a message and exit if the current dir isn't a rails project" do
+      Tane::Commands::Init.should_receive(:authenticate_user).and_return(true)
       Tane::Commands::Init.should_receive(:in_rails_dir?).
         and_return(false)
 
