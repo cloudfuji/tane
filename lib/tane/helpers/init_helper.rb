@@ -86,7 +86,7 @@ class Tane::Helpers::Init
 
       email['example_email_1']['recipient']          = "postmaster@your-app-name.gobushido.com"
       email['example_email_1']['sender']             = "sender@example.org"
-      email['example_email_1']['from']               = "Example Sender <example.sender@example.org"
+      email['example_email_1']['from']               = "Example Sender <example.sender@example.org>"
       email['example_email_1']['subject']            = "Example subject"
       email['example_email_1']['body-plain']         = "Example plain body with no HTML, but with all the quoted conversations"
       email['example_email_1']['stripped-text']      = "Example stripped text, with no HTML, quotes, or signature"
