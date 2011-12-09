@@ -7,8 +7,8 @@ class Tane::Commands::Login < Tane::Commands::Base
       
       auth_token = verify_or_signup(email, password)
       
-      puts "Done!"
-      puts "Saving credentials"
+      term.say "Done!"
+      term.say "Saving credentials"
       save_credentials(email, auth_token)
     end
     
@@ -16,13 +16,13 @@ class Tane::Commands::Login < Tane::Commands::Base
     def warn_if_credentials_and_prompt
       warn_if_credentials
       
-      puts "Let's log you in:"
+      term.say "Let's log you in:"
       email, password = prompt_for_credentials
     end
     
     
     def verify_or_signup(email, password)
-      puts "contacting bushido, please wait..."
+      term.say "contacting bushido, please wait..."
       auth_token, errors = Tane::Helpers::Bushido.verify_credentials(email, password)
       
       return auth_token if not auth_token.nil?
