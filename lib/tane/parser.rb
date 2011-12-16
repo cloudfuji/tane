@@ -46,7 +46,7 @@ module Tane
               options.send("#{option[:name]}=", value)
             end
           end
-
+          options.send("help_text=", opts.help())
           opts.parse!(args)
           return options
         end
