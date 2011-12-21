@@ -13,7 +13,7 @@ class Tane::Helpers::Init
         save_emails
       end
 
-      term.say "Finished successfully! Check out .bushido/tane.yml for the env vars if you care, or .bushido/emails.yml to create email templates to test with"
+      term.say "Finished successfully! Check out .bushido/tane.yml for the env vars if you care, or .bushido/emails/#{example_email_template.keys.first}.yml to create email templates to test with"
     end
 
     def update_app
@@ -31,56 +31,38 @@ class Tane::Helpers::Init
       File.open('.bushido/tane.yml', 'w+') { |file| file.puts YAML.dump(envs_template(env_vars)) }
     end
 
-    # TODO: Replace email_template with a template that has every possible field
     def save_emails
-      if File.exists?('.bushido/emails.yml')
-        if not term.agree('.bushido/emails.yml already exists! Are you sure you want to overwrite it?')
+      if File.exists?("#{email_templates_path}/#{example_email_template.keys.first}")
+        if not term.agree("#{example_email_template.keys.first} already exists! Are you sure you want to overwrite it?")
           return
         end
       end
 
-      File.open('.bushido/emails.yml', 'w') { |file| file.puts email_template_explanation; file.puts YAML.dump(emails_template) }
+      File.open("#{email_templates_path}/#{example_email_template.keys.first}", "w") do |file|
+        file.puts email_template_explanation
+        file.puts YAML.dump(example_email_template)
+      end
     end
 
     def envs_template(app_envs)
       envs = {}
-      envs['APP_TLD']              = app_envs['APP_TLD']
-      envs['BUNDLE_WITHOUT']       = app_envs['BUNDLE_WITHOUT']
-      envs['BUSHIDO_APP']          = app_envs['BUSHIDO_APP']
-      envs['BUSHIDO_APP_KEY']      = app_envs['BUSHIDO_APP_KEY']
-      envs['BUSHIDO_DOMAIN']       = app_envs['BUSHIDO_DOMAIN']
-      envs['BUSHIDO_EVENTS']       = app_envs['BUSHIDO_EVENTS']
-      envs['BUSHIDO_HOST']         = app_envs['BUSHIDO_HOST']
-      envs['BUSHIDO_NAME']         = app_envs['BUSHIDO_NAME']
-      envs['BUSHIDO_PROJECT_NAME'] = app_envs['BUSHIDO_PROJECT_NAME']
-      envs['BUSHIDO_SALT']         = app_envs['BUSHIDO_SALT']
-      envs['BUSHIDO_SUBDOMAIN']    = app_envs['BUSHIDO_SUBDOMAIN']
-      envs['B_SQL_DB']             = app_envs['B_SQL_DB']
-      envs['B_SQL_PASS']           = app_envs['B_SQL_PASS']
-      envs['B_SQL_USER']           = app_envs['B_SQL_USER']
-      envs['DATABASE_URL']         = app_envs['DATABASE_URL']
-      envs['HOSTING_PLATFORM']     = app_envs['HOSTING_PLATFORM']
-      envs['LANG']                 = app_envs['LANG']
-      envs['PUBLIC_URL']           = app_envs['PUBLIC_URL']
-      envs['RACK_ENV']             = app_envs['RACK_ENV']
-      envs['RAILS_ENV']            = app_envs['RAILS_ENV']
-      envs['S3_ACCESS_KEY_ID']     = app_envs['S3_ACCESS_KEY_ID']
-      envs['S3_ARN']               = app_envs['S3_ARN']
-      envs['S3_BUCKET']            = app_envs['S3_BUCKET']
-      envs['S3_PREFIX']            = app_envs['S3_PREFIX']
-      envs['S3_SECRET_ACCESS_KEY'] = app_envs['S3_SECRET_ACCESS_KEY']
-      envs['SHARED_DATABASE_URL']  = app_envs['SHARED_DATABASE_URL']
-      envs['SMTP_AUTHENTICATION']  = app_envs['SMTP_AUTHENTICATION']
-      envs['SMTP_DOMAIN']          = app_envs['SMTP_DOMAIN']
-      envs['SMTP_PASSWORD']        = app_envs['SMTP_PASSWORD']
-      envs['SMTP_PORT']            = app_envs['SMTP_PORT']
-      envs['SMTP_SERVER']          = app_envs['SMTP_SERVER']
-      envs['SMTP_TLS']             = app_envs['SMTP_TLS']
-      envs['SMTP_USER']            = app_envs['SMTP_USER']
+      env_var_keys = [
+        'APP_TLD',              'BUNDLE_WITHOUT',   'BUSHIDO_APP',       'BUSHIDO_APP_KEY',
+        'BUSHIDO_DOMAIN',       'BUSHIDO_EVENTS',   'BUSHIDO_HOST',      'BUSHIDO_NAME',
+        'BUSHIDO_PROJECT_NAME', 'BUSHIDO_SALT',     'BUSHIDO_SUBDOMAIN',
+        'B_SQL_DB',             'B_SQL_PASS',       'B_SQL_USER',        'DATABASE_URL',
+        'HOSTING_PLATFORM',     'LANG',             'PUBLIC_URL',        'RACK_ENV',
+        'RAILS_ENV',            'S3_ACCESS_KEY_ID', 'S3_ARN',            'S3_BUCKET',
+        'SHARED_DATABASE_URL',  'S3_PREFIX',        'S3_SECRET_ACCESS_KEY',           
+        'SMTP_AUTHENTICATION',  'SMTP_DOMAIN',      'SMTP_PASSWORD',
+        'SMTP_PORT',            'SMTP_SERVER',      'SMTP_TLS',          'SMTP_USER'
+      ]
+ 
+      env_var_keys.each { |env_var_key| envs[env_var_key] = app_envs[env_var_key] }
       envs
     end
 
-    def emails_template
+    def example_email_template
       email = {}
       email['example_email_1'] = {}
 
