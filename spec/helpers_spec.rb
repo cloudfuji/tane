@@ -188,6 +188,13 @@ describe "Tane::Helpers" do
       end
     end
 
+
+    describe "support_url" do
+      it "should return http://gobushido.com/api/support/message" do
+        Tane::Helpers::Example.support_url.should == "http://gobushido.com/api/support/message"
+      end
+    end
+
     describe "post" do
       before :each do
         Tane::Helpers::Example.should_receive(:bushido_envs).and_return({"BUSHIDO_APP_KEY"=>"abc123"})

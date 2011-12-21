@@ -143,7 +143,7 @@ module Tane
       end
 
       def support_url
-        "http://gobushido.com/api/support"
+        "http://gobushido.com/api/support/message"
       end
 
       def envs_url
