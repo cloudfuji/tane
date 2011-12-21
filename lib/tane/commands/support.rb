@@ -6,10 +6,10 @@ class Tane::Commands::Support < Tane::Commands::Base
     end
 
     def send_message_to_bushido(message)
-      support_data = {
-        :source => "tane",
-        :email  => email_from_credentials_or_prompt
-      }
+      support_data = {}
+      support_data[:source]  = "tane"
+      support_data[:email]   = email_from_credentials_or_prompt
+      support_data[:message] = message
 
       RestClient.post support_url, support_data
 

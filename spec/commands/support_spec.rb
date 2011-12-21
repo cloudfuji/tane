@@ -23,8 +23,9 @@ describe Tane::Commands::Support do
 
       RestClient.should_receive(:post).
         with(Tane::Commands::Support.support_url, {
-          :source => "tane",
-          :email => "valid_username"
+          :source  => "tane",
+          :email   => "valid_username",
+          :message => @message
         })
     end
     
