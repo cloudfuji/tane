@@ -3,7 +3,7 @@
 Copy-paste the following to create a new Bushido rails application.
 
     gem install tane
-    bundle exec tane create
+    tane create
 
 ## What is tane?
 
