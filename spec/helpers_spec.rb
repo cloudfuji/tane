@@ -191,7 +191,7 @@ describe "Tane::Helpers" do
 
     describe "support_url" do
       it "should return http://gobushido.com/api/support/message" do
-        Tane::Helpers::Example.support_url.should == "http://gobushido.com/api/support/message"
+        Tane::Helpers::Example.support_url.should == "http://gobushido.com/api/support/v1/message"
       end
     end
 
