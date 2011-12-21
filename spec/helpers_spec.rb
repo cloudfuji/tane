@@ -32,9 +32,15 @@ describe "Tane::Helpers" do
       end
     end
 
+    describe "email_templates_path" do
+      it "should return path to the template file in the project's .bushido dir" do
+        Tane::Helpers::Example.email_templates_path.should == ".bushido/emails"
+      end
+    end
+    
     describe "email_template_file_path" do
-      it "should return path to current project's .bushido/emails.yml file" do
-        Tane::Helpers::Example.email_template_file_path.should == ".bushido/emails.yml"
+      it "should return path to the template file in the project's .bushido dir" do
+        Tane::Helpers::Example.email_template_file_path("valid_template").should == ".bushido/emails/valid_template.yml"
       end
     end
 
