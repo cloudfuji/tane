@@ -20,5 +20,20 @@ class Tane::Commands::Email < Tane::Commands::Base
     def render_email(name)
       YAML.load(ERB.new(File.read( email_template_file_path )).result)[name]
     end
+
+    def help_text
+      <<-EOL
+Usage:
+
+    tane email [email_template_name]
+   
+Simulates an incoming email event in the app running locally, using the template provided. Details on how to create a template are discussed later in this document.
+
+To list email templates defined for the application, run
+
+    tane email
+EOL
+    end
+
   end
 end

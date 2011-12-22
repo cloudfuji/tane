@@ -1,11 +1,26 @@
 class Tane::Commands::Refresh < Tane::Commands::Base
-  def self.process(args)
-    if in_rails_dir?
-      Tane::Helpers::Init.update_app
-    else
-      term.say("You have to be in the local rails app's root directory when running `tane update`")
 
-      exit 1
+  class << self
+    def process(args)
+      if in_rails_dir?
+        Tane::Helpers::Init.update_app
+      else
+        term.say("You have to be in the local rails app's root directory when running `tane update`")
+        
+        exit 1
+      end
     end
+
+    def help_text
+      <<-EOL
+Usage:
+
+    tane refresh
+
+Updates the Bushido environment for the local application from the
+latest settings from the Bushido server.
+EOL
+    end   
   end
+
 end
