@@ -95,7 +95,7 @@ module Tane
 
           exit 1
         else
-          FileUtils.mkdir_p '.bushido'
+          FileUtils.mkdir_p '.bushido/emails'
         end
       end
       

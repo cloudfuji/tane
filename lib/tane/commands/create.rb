@@ -4,8 +4,10 @@ class Tane::Commands::Create < Tane::Commands::Base
     def process(args)
       authenticate_user
       app_name = args[0] ||= term.ask("Please enter a name for your new app:     ") { |app_name| app_name }
-      
-      system "bundle exec rails #{app_name} -m https://raw.github.com/Bushido/kimono/master/kimono.rb"
+      system "rails new #{app_name} -m /remote/kimono/kimono.rb"
+      Dir.chdir("./#{app_name}")do
+        system "bundle exec tane init"
+      end
     end
 
     def help_text
