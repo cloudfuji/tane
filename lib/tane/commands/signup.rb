@@ -27,5 +27,17 @@ class Tane::Commands::Signup < Tane::Commands::Base
       term.say "Saving credentials"
       save_credentials(email, auth_token)
     end
+
+
+    def help_text
+      <<-EOL
+Usage:
+
+    tane signup
+    
+Prompts you to signup for a Bushido account.
+EOL
+    end
   end
+
 end
