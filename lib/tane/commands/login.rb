@@ -77,5 +77,15 @@ class Tane::Commands::Login < Tane::Commands::Base
       exit
     end
 
+    def help_text
+      <<-EOL
+Usage:
+
+    tane login
+    
+Logs you into the Bushido and stores the credentials in `~/.bushido/credentials.yml` file. It only stores your email and an authentication token. Your password is not stored. This is required if you want to run local applications in a Bushido environment. It prompts you to signup if you do not have a Bushido account.
+EOL
+    end
+    
   end
 end

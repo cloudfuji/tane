@@ -20,6 +20,30 @@ module Tane
     $commands.each do |command|
       autoload command.capitalize.to_sym, "tane/commands/#{command}"
     end
+
+    class << self
+      def command_list_and_help
+        command_list  = "\n"
+        command_list += "The commands I know are:"
+
+        ($commands - ["app", "base"]).each do |command|
+          command_list += "\n  #{command}"
+        end
+
+        command_list += "\n\n"
+        command_list += "For help on any of these commands do"
+        command_list += "\n\t"
+        command_list += "tane help command_name"
+        command_list += "\n\n"
+      end
+
+      def const_missing(name)
+        puts "Unsupported command #{name.downcase}."
+        puts command_list_and_help
+        exit 1
+      end
+    end
+
   end
 end
 

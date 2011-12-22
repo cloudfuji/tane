@@ -29,11 +29,7 @@ module Tane
 
         opts = OptionParser.new do |opts|
           banner  = "Usage: tane command [options]\n"
-          banner += "\n"
-          banner += "The commands I know are:\n"
-          ($commands - ["base", "app"]).each do |command|
-            banner += "  #{command}\n"
-          end
+          banner += Tane::Commands.command_list_and_help
 
           opts.banner = banner
 

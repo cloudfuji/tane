@@ -95,12 +95,12 @@ describe Tane::Helpers::Init do
     end
   end
 
-  describe "emails_template" do
+  describe "example_email_template" do
     it "should return a hash with a sample email template with the name 'example_email_1'" do
-      emails_template = Tane::Helpers::Init.emails_template
+      example_email_template = Tane::Helpers::Init.example_email_template
 
-      emails_template.should be_kind_of(Hash)
-      emails_template['example_email_1'].should_not be_nil
+      example_email_template.should be_kind_of(Hash)
+      example_email_template['example_email_1'].should_not be_nil
     end
   end
 
