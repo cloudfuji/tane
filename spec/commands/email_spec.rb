@@ -3,15 +3,15 @@ require "spec_helper"
 describe Tane::Commands::Email do
 
   describe ".process" do
-    it "should send email if commad is 'tane email send'" do
-      args = ["send", "valid_template"]
+    it "should send email if command is 'tane email template_name'" do
+      args = ["valid_template"]
       Tane::Commands::Email.should_receive(:send_email).with("valid_template")
 
       Tane::Commands::Email.process(args)
     end
 
-    it "should send email if commad is 'tane email list'" do
-      args = ["list"]
+    it "should list email if commad is 'tane email'" do
+      args = []
       Tane::Commands::Email.should_receive(:list_email_templates)
 
       Tane::Commands::Email.process(args)

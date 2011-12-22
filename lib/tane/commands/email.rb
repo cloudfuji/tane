@@ -1,8 +1,11 @@
 class Tane::Commands::Email < Tane::Commands::Base
   class << self
     def process(args)
-      list_email_templates if args.first == "list"
-      send_email(args[1])  if args.first == "send"
+      if args.count == 0
+        list_email_templates
+      else
+        send_email(args.first)
+      end
     end
 
     def list_email_templates
