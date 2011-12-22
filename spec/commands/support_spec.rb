@@ -17,16 +17,43 @@ describe Tane::Commands::Support do
 
 
   describe ".send_message_to_bushido" do
-    it "should display the message sent" do
-      Tane::Commands::Support.should_receive(:username).
-        and_return("valid_username")
-      Tane::Commands::Support.term.should_receive(:say).at_least(1)
 
+    before :each do
+      Tane::Commands::Support.should_receive(:email_from_credentials_or_prompt).and_return("valid_username")
+
+      RestClient.should_receive(:post).
+        with(Tane::Commands::Support.support_url, {
+          :source  => "tane",
+          :email   => "valid_username",
+          :message => @message
+        })
+    end
+    
+    it "should display the message being sent" do
+      Tane::Commands::Support.term.should_receive(:say).at_least(3)
       Tane::Commands::Support.send_message_to_bushido(@message)
     end
 
     it "should send a message to Bushido team" do
-      pending "send_message_to_bushido doesn't send emails right now"
+      Tane::Commands::Support.send_message_to_bushido(@message)
+    end
+
+  end
+  
+  describe ".get_email_or_prompt" do
+    it "should return the username if the user is logged in" do
+      Tane::Commands::Support.should_receive(:logged_in?).and_return(true)
+      Tane::Commands::Support.should_receive(:username).and_return("valid_username")
+
+      Tane::Commands::Support.email_from_credentials_or_prompt.should == "valid_username"
+    end
+
+    it "should return the input from prompt if the user is not logged in" do
+      Tane::Commands::Support.should_receive(:logged_in?).and_return(false)
+      Tane::Commands::Support.term.should_receive(:ask).and_return("valid_username")
+
+      Tane::Commands::Support.email_from_credentials_or_prompt.should == "valid_username"
     end
   end
+
 end

@@ -32,9 +32,15 @@ describe "Tane::Helpers" do
       end
     end
 
+    describe "email_templates_path" do
+      it "should return path to the template file in the project's .bushido dir" do
+        Tane::Helpers::Example.email_templates_path.should == ".bushido/emails"
+      end
+    end
+    
     describe "email_template_file_path" do
-      it "should return path to current project's .bushido/emails.yml file" do
-        Tane::Helpers::Example.email_template_file_path.should == ".bushido/emails.yml"
+      it "should return path to the template file in the project's .bushido dir" do
+        Tane::Helpers::Example.email_template_file_path("valid_template").should == ".bushido/emails/valid_template.yml"
       end
     end
 
@@ -179,6 +185,14 @@ describe "Tane::Helpers" do
       it "should return url to local app's Bushido::Mail#index action at/bushido/mail" do
         mail_url = "#{::Tane::Helpers::Example.base_url}/bushido/mail"
         Tane::Helpers::Example.mail_url.should == mail_url
+      end
+    end
+
+
+    describe "support_url" do
+      it "should return http://gobushido.com/api/support/message" do
+        support_url = "#{Tane::Helpers::Example.bushido_url}/support/v1/message"
+        Tane::Helpers::Example.support_url.should == support_url
       end
     end
 
