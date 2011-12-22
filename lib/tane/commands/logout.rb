@@ -9,5 +9,17 @@ class Tane::Commands::Logout < Tane::Commands::Base
         term.say "Couldn't find any Bushido account on this computer... kind of lonesome in that way, what with just you and me and all..."
       end
     end
+
+
+    def help_text
+      <<-EOL
+Usage:
+
+    tane logout
+
+Deletes the Bushido credentials from the user's `$HOME` directory.
+EOL
+    end
   end
+
 end

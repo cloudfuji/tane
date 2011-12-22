@@ -14,5 +14,5 @@ options = Tane::Parser.parse(args)
 command = args.shift.strip rescue 'help'
 command = 'help' if command == ''
 
-klass = eval("Tane::Commands::#{command.capitalize}")
+klass = Tane::Commands.const_get command.capitalize
 klass.fire(options, args)

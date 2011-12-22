@@ -31,8 +31,12 @@ module Tane
         "#{ENV['HOME']}/.bushido"
       end
 
-      def email_template_file_path
-        ".bushido/emails.yml"
+      def email_template_file_path(template_name)
+        "#{email_templates_path}/#{template_name}.yml"
+      end
+      
+      def email_templates_path
+        ".bushido/emails"
       end
 
       def tane_file_path
@@ -136,6 +140,10 @@ module Tane
 
       def data_url
         "#{base_url}/bushido/data"
+      end
+
+      def support_url
+        "#{bushido_url}/support/v1/message"
       end
 
       def envs_url
