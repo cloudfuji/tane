@@ -81,8 +81,9 @@ describe "Tane::Helpers" do
     end
 
     describe "bushido_app_exists?" do
-      it "it should return true if the tane.yml and email.yml exists in the current directory" do
-        File.should_receive(:exists?).twice.and_return(true)
+      it "it should return true if the .bushido/tane.yml file and .bushido/emails dir exists in the current directory" do
+        File.should_receive(:exists?).and_return(true)
+        File.should_receive(:directory?).and_return(true)
         Tane::Helpers::Example.bushido_app_exists?.should be_true
       end
     end
