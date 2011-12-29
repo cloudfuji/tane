@@ -64,14 +64,14 @@ describe Tane::Helpers::Init do
   end
 
   describe "save_emails" do
-    it "should write a .bushido/emails.yml file if it does not exist" do
+    it "should create a sample email template file to .bushido/emails dir if it does not exist" do
       File.should_receive(:exists?).and_return(false)
       File.should_receive(:open)
 
       Tane::Helpers::Init.save_emails
     end
 
-    it "should write a .bushido/emails.yml file if it already exists and if the user agrees to an overwrite" do
+    it "should create a sample email template file if it already exists and if the user agrees to an overwrite" do
       File.should_receive(:exists?).and_return(true)
       Tane::Helpers::Init.term.should_receive(:agree).and_return(true)
       File.should_receive(:open)
@@ -79,7 +79,7 @@ describe Tane::Helpers::Init do
       Tane::Helpers::Init.save_emails
     end
 
-    it "should not write a .bushido/emails.yml file if the user says no to an overwrite" do
+    it "should not create a sample email template file if the user says no to an overwrite" do
       File.should_receive(:exists?).and_return(true)
       Tane::Helpers::Init.term.should_receive(:agree).and_return(false)
       File.should_not_receive(:open)

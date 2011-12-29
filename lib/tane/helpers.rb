@@ -64,7 +64,7 @@ module Tane
       end
 
       def bushido_app_exists?
-        File.exists?('.bushido/tane.yml') and File.exists?('.bushido/email.yml')
+        File.exists?('.bushido/tane.yml') and File.directory?('.bushido/emails')
       end
 
       def username

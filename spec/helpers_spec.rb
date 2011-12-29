@@ -81,8 +81,9 @@ describe "Tane::Helpers" do
     end
 
     describe "bushido_app_exists?" do
-      it "it should return true if the tane.yml and email.yml exists in the current directory" do
-        File.should_receive(:exists?).twice.and_return(true)
+      it "it should return true if the .bushido/tane.yml file and .bushido/emails dir exists in the current directory" do
+        File.should_receive(:exists?).and_return(true)
+        File.should_receive(:directory?).and_return(true)
         Tane::Helpers::Example.bushido_app_exists?.should be_true
       end
     end
@@ -111,7 +112,7 @@ describe "Tane::Helpers" do
     describe "make_app_bushido_dir" do
       it "should create a .bushido dir in the current dir if it does not have one" do
         Tane::Helpers::Example.should_receive(:bushido_app_exists?).and_return(false)
-        FileUtils.should_receive(:mkdir_p).with(".bushido")
+        FileUtils.should_receive(:mkdir_p).with(".bushido/emails")
         Tane::Helpers::Example.make_app_bushido_dir
       end
 
