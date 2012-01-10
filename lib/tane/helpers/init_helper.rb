@@ -43,15 +43,15 @@ class Tane::Helpers::Init
     def envs_template(app_envs)
       envs = {}
       env_var_keys = [
-        'APP_TLD',              'BUNDLE_WITHOUT',   'BUSHIDO_APP',       'BUSHIDO_APP_KEY',
-        'BUSHIDO_DOMAIN',       'BUSHIDO_EVENTS',   'BUSHIDO_HOST',      'BUSHIDO_NAME',
-        'BUSHIDO_PROJECT_NAME', 'BUSHIDO_SALT',     'BUSHIDO_SUBDOMAIN',
-        'B_SQL_DB',             'B_SQL_PASS',       'B_SQL_USER',        'DATABASE_URL',
-        'HOSTING_PLATFORM',     'LANG',             'PUBLIC_URL',        'RACK_ENV',
-        'RAILS_ENV',            'S3_ACCESS_KEY_ID', 'S3_ARN',            'S3_BUCKET',
-        'SHARED_DATABASE_URL',  'S3_PREFIX',        'S3_SECRET_ACCESS_KEY',           
+        'APP_TLD',              'BUNDLE_WITHOUT',   'BUSHIDO_APP',          'BUSHIDO_APP_KEY',
+        'BUSHIDO_DOMAIN',       'BUSHIDO_EVENTS',   'BUSHIDO_HOST',         'BUSHIDO_NAME',
+        'BUSHIDO_PROJECT_NAME', 'BUSHIDO_SALT',     'BUSHIDO_SUBDOMAIN',    
+        'B_SQL_DB',             'B_SQL_PASS',       'B_SQL_USER',           'DATABASE_URL',
+        'HOSTING_PLATFORM',     'LANG',             'PUBLIC_URL',           'RACK_ENV',
+        'RAILS_ENV',            'S3_ACCESS_KEY_ID', 'S3_ARN',               'S3_BUCKET',
+        'SHARED_DATABASE_URL',  'S3_PREFIX',        'S3_SECRET_ACCESS_KEY', 'STS_SESSION_TOKEN',           
         'SMTP_AUTHENTICATION',  'SMTP_DOMAIN',      'SMTP_PASSWORD',
-        'SMTP_PORT',            'SMTP_SERVER',      'SMTP_TLS',          'SMTP_USER'
+        'SMTP_PORT',            'SMTP_SERVER',      'SMTP_TLS',             'SMTP_USER'
       ]
  
       env_var_keys.each { |env_var_key| envs[env_var_key] = app_envs[env_var_key] }

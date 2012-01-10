@@ -11,6 +11,8 @@ module Tane
     end
 
     module ClassMethods
+      @should_throb = false
+
       def term
         @hl ||= HighLine.new
       end
@@ -162,6 +164,46 @@ module Tane
         verbose_say(result.inspect)
 
         result
+      end
+
+      def repeat_every(interval, &block)
+        Thread.new do
+          loop do
+            start_time = Time.now
+            yield
+            elapsed = Time.now - start_time
+            sleep([interval - elapsed, 0].max)
+          end
+        end
+      end
+
+      def start_throbber!
+        throbber_frames = ['|', '/', '-', '\\']
+        frame_counter = 0
+
+        @should_throb = true
+
+        thread = repeat_every(0.5) do
+          if @should_throb
+            print "\x08"
+            frame_counter += 1
+            frame_counter = 0 if frame_counter == throbber_frames.length
+            print throbber_frames[frame_counter]
+          end
+        end
+
+      end
+
+      def stop_throbber!
+        @should_throb = false
+      end
+
+      def should_throb
+        @should_throb
+      end
+
+      def should_throb=(value)
+        @should_throb = value
       end
     end
   end

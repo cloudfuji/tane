@@ -6,9 +6,17 @@ class Tane::Commands::Create < Tane::Commands::Base
       app_name = args[0] ||= term.ask("Please enter a name for your new app:     ") { |app_name| app_name }
       template_url = ENV['KIMONO_URL'] || "https://raw.github.com/Bushido/kimono/master/kimono.rb"
 
-      print "Creating a new Bushido rails app in #{ app_name } ... "
+      print "Creating a new Bushido rails app in #{ app_name } (please wait, it'll take a few minutes) ...  "
 
-      system("rails new #{app_name} -m #{ template_url } > tane.log")
+      start_throbber!
+
+      File.open("tane.log", "w") do |file|
+        IO.popen("rails new #{app_name} -m #{ template_url }", :error => [:child, :out]) do |io|
+          file.puts(io.read)
+        end
+      end
+
+      stop_throbber!
 
       Dir.chdir("./#{app_name}")do
         system("bundle exec tane init > ../tane.log")
@@ -21,12 +29,12 @@ class Tane::Commands::Create < Tane::Commands::Base
                           "May the source be with you!",
                           "Take this demi-REPL, dear friend, and may it serve you well.",
                           "Lemonodor-fame is but a hack away!",
-                          "Go forth to #{ app_name }, and hack for all you're worth - for all mankind!"]
+                          "Go forth to #{ app_name }, and hack for all you're worth - for all humankind!"]
 
       success_message = success_messages[ rand(success_messages.length) ]
 
       FileUtils.mv("./tane.log", "./#{ app_name }/log/tane.log")
-      puts "Finished successfully!"
+      puts "  Finished successfully!"
       puts "Your app is now in ./#{ app_name } . #{ success_message }"
     end
 
