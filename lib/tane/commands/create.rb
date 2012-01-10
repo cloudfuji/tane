@@ -21,7 +21,7 @@ class Tane::Commands::Create < Tane::Commands::Base
                           "May the source be with you!",
                           "Take this demi-REPL, dear friend, and may it serve you well.",
                           "Lemonodor-fame is but a hack away!",
-                          "Go forth to #{ app_name }, and hack for all you're worth - for all mankind!"]
+                          "Go forth to #{ app_name }, and hack for all you're worth - for all humankind!"]
 
       success_message = success_messages[ rand(success_messages.length) ]
 
