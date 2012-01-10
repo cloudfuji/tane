@@ -31,7 +31,7 @@ class Tane::Commands::Login < Tane::Commands::Base
         term.say("Invalid username, or password, sorry! Don't worry though, we'll get you through this!")
 
         # returns auth_token on success
-        return signup_and_notify(email, password) if term.agree("would you like to try signing up with those credentials?")
+        return signup_and_notify(email, password) if term.agree("would you like to try signing up with those credentials? Y/N")
           
         display_help_messages_and_exit
       end

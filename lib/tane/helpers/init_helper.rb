@@ -23,7 +23,7 @@ class Tane::Helpers::Init
     # TODO: Replace envs_template with values retrieved from Bushido side
     def save_envs(env_vars)
       if File.exists?('.bushido/tane.yml')
-        return if not term.agree('.bushido/tane.yml already exists! Are you sure you want to overwrite it?')
+        return if not term.agree('.bushido/tane.yml already exists! Are you sure you want to overwrite it? Y/N')
       end
 
       File.open('.bushido/tane.yml', 'w+') { |file| file.puts YAML.dump(envs_template(env_vars)) }
@@ -31,7 +31,7 @@ class Tane::Helpers::Init
 
     def save_emails
       if File.exists?("#{email_templates_path}/#{example_email_template.keys.first}")
-        return if not term.agree("#{example_email_template.keys.first} already exists! Are you sure you want to overwrite it?")
+        return if not term.agree("#{example_email_template.keys.first} already exists! Are you sure you want to overwrite it? Y/N")
       end
 
       File.open("#{email_templates_path}/#{example_email_template.keys.first}", "w") do |file|
