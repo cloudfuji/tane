@@ -6,9 +6,14 @@ class Tane::Commands::Create < Tane::Commands::Base
       app_name = args[0] ||= term.ask("Please enter a name for your new app:     ") { |app_name| app_name }
       template_url = ENV['KIMONO_URL'] || "https://raw.github.com/Bushido/kimono/master/kimono.rb"
 
-      print "Creating a new Bushido rails app in #{ app_name } ... "
+      print "Creating a new Bushido rails app in #{ app_name } (please wait, it'll take a few minutes) ... "
 
-      system("rails new #{app_name} -m #{ template_url } > tane.log")
+
+      File.open("tane.log", "w") do |file|
+        IO.popen("rails new #{app_name} -m #{ template_url }", :error => [:child, :out]) do |io|
+          file.puts(io.read)
+        end
+      end
 
       Dir.chdir("./#{app_name}")do
         system("bundle exec tane init > ../tane.log")
