@@ -16,11 +16,17 @@ class Tane::Commands::Create < Tane::Commands::Base
         end
       end
 
-      stop_throbber!
+
 
       Dir.chdir("./#{app_name}")do
-        system("bundle exec tane init > ../tane.log")
+        File.open("tane.log", "w") do |file|
+          IO.popen("bundle exec tane init", :error => [:child, :out]) do |io|
+            file.puts(io.read)
+          end
+        end
       end
+
+      stop_throbber!
 
       success_messages = ["Let the hacking commence!",
                           "Hacks and glory await!",
