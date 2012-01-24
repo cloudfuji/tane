@@ -42,6 +42,10 @@ class Tane::Commands::Create < Tane::Commands::Base
       FileUtils.mv("./tane.log", "./#{ app_name }/log/tane.log")
       puts "  Finished successfully!"
       puts "Your app is now in ./#{ app_name } . #{ success_message }"
+
+      if system("bundle exec tane exec rails s")
+        Launchy.open('http://localhost:3000)
+      end
     end
 
     def help_text
