@@ -178,17 +178,17 @@ module Tane
       end
 
       def start_throbber!
-        throbber_frames = ['|', '/', '-', '\\']
+        throbber_frames = ['|', '/', '-', '\\', 'X']
         frame_counter = 0
 
         @should_throb = true
 
         thread = repeat_every(0.5) do
           if @should_throb
-            print "\x08"
+            print "\x08\x08\x08"
             frame_counter += 1
             frame_counter = 0 if frame_counter == throbber_frames.length
-            print throbber_frames[frame_counter]
+            print "#{throbber_frames[frame_counter]}  "
           end
         end
 
@@ -204,6 +204,27 @@ module Tane
 
       def should_throb=(value)
         @should_throb = value
+      end
+
+      # Takes a list of ENV vars, records their value,
+      # sets them to null, runs the block, then ensures
+      # the ENV vars are restored at the end.
+      def suppress_env_vars(*vars, &block)
+        cache = {}
+        vars.each do |var|
+          cache[var] = ENV[var]
+        end
+
+        begin      
+          vars.each do |var|
+            ENV[var] = nil
+          end
+          yield block
+        ensure
+          cache.each_pair do |key, value|
+            ENV[key] = value
+          end
+        end
       end
     end
   end
