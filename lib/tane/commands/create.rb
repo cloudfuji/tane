@@ -1,3 +1,27 @@
+require 'launchy'
+
+    # Takes a list of ENV vars, records their value,
+    # sets them to null, runs the block, then ensures
+    # the ENV vars are restored at the end.
+    def suppress_env_vars(*vars, &block)
+      cache = {}
+      vars.each do |var|
+        cache[var] = ENV[var]
+      end
+
+      begin      
+        vars.each do |var|
+          ENV[var] = nil
+        end
+        yield block
+      ensure
+        cache.each_pair do |key, value|
+          ENV[key] = value
+        end
+      end
+    end
+
+
 class Tane::Commands::Create < Tane::Commands::Base
 
   class << self
@@ -6,7 +30,7 @@ class Tane::Commands::Create < Tane::Commands::Base
       app_name = args[0] ||= term.ask("Please enter a name for your new app:     ") { |app_name| app_name }
       template_url = ENV['KIMONO_URL'] || "https://raw.github.com/Bushido/kimono/master/kimono.rb"
 
-      print "Creating a new Bushido rails app in #{ app_name } (please wait, it'll take a few minutes) ...  "
+      print "Creating a new Bushido rails app in ./#{ app_name } (please wait, it'll take a few minutes) ...  "
 
       start_throbber!
 
@@ -15,7 +39,6 @@ class Tane::Commands::Create < Tane::Commands::Base
           file.puts(io.read)
         end
       end
-
 
 
       Dir.chdir("./#{app_name}")do
@@ -42,10 +65,18 @@ class Tane::Commands::Create < Tane::Commands::Base
       FileUtils.mv("./tane.log", "./#{ app_name }/log/tane.log")
       puts "  Finished successfully!"
       puts "Your app is now in ./#{ app_name } . #{ success_message }"
-
-      if system("bundle exec tane exec rails s")
-        Launchy.open('http://localhost:3000)
+      
+      Dir.chdir("./#{app_name}") do
+        puts "Launching your new app at http://localhost:3000"
+        begin
+          suppress_env_vars("BUNDLE_BIN_PATH", "BUNDLE_GEMFILE", "RUBYOPT") do
+            system("bundle exec rails s -d && launchy http://localhost:3000")
+          end
+        rescue Exception => ex
+          puts "Oh no we tried to launch the app but failed. Please try launching it yourself with \n bundle exec tane exec rails s \n if you have problems let us know at support@bushi.do"
+        end
       end
+
     end
 
     def help_text
