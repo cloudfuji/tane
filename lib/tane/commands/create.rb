@@ -68,13 +68,44 @@ class Tane::Commands::Create < Tane::Commands::Base
       
       Dir.chdir("./#{app_name}") do
         puts "Launching your new app at http://localhost:3000"
-        begin
-          suppress_env_vars("BUNDLE_BIN_PATH", "BUNDLE_GEMFILE", "RUBYOPT") do
-            system("bundle exec rails s -d && launchy http://localhost:3000")
+        suppress_env_vars("BUNDLE_BIN_PATH", "BUNDLE_GEMFILE", "RUBYOPT") do
+          $rails_pid = fork do
+            exec("bundle exec rails s - && http://localhost:3000")
           end
-        rescue Exception => ex
-          puts "Oh no we tried to launch the app but failed. Please try launching it yourself with \n bundle exec tane exec rails s \n if you have problems let us know at support@bushi.do"
-        end
+
+          at_exit do
+            begin
+              Process.kill('-SIGKILL', $rails_pid)
+            rescue Exception => ex
+              puts "uh oh"
+            end
+          end
+            
+          # File.open("tane.log", "w") do |file|
+          #  wtf_return =  IO.popen("bundle exec rails s -d", :error => [:child, :out]) do |io|
+          #     puts io.pid
+          #     puts Process.pid
+          #     $rails_pid = io.pid
+          #     puts $rails_pid
+          #   end
+
+          #   puts "WTF IO?"
+          #   puts Process.pid
+          # end
+         
+          # unless system("launchy http://localhost:3000 &")
+          #   puts "Sorry tried to launch your browser but failed. Please visit your app at http://localhost:3000"
+          # end
+
+
+          # begin
+          #   Launchy.open('http://localhost:3000')
+          # rescue Exeception => ex
+          #   puts "Sorry tried to launch your browser but failed. Please visit your app at http://localhost:3000"
+          # end
+
+      end
+      
       end
 
     end
