@@ -1,7 +1,10 @@
 class Tane::Commands::Create < Tane::Commands::Base
   class << self
     def process(args)
+      verbose_say("Authenticating you...")
       authenticate_user
+      verbose_say("done!")
+      
       app_name = args[0] ||= term.ask("Please enter a name for your new app:     ") { |app_name| app_name }
       template_url = ENV['KIMONO_URL'] || "https://raw.github.com/Bushido/kimono/master/kimono.rb"
 
@@ -14,15 +17,20 @@ class Tane::Commands::Create < Tane::Commands::Base
           file.puts(io.read)
         end
       end
-
+      verbose_say("Finished creating rails app, initializing Bushido resources...")
 
       Dir.chdir("./#{app_name}")do
         File.open("tane.log", "w") do |file|
-          IO.popen("bundle exec tane init", :error => [:child, :out]) do |io|
-            file.puts(io.read)
-          end
+          verbose = "--verbose" if opts.verbose
+          verbose ||= ""
+          system("bundle exec tane init #{verbose}")
+          # IO.popen("bundle exec tane init #{verbose}", :error => [:child, :out]) do |io|
+          #   file.puts(io.read)
+          # end
         end
       end
+
+      verbose_say("done!")
 
       stop_throbber!
 
@@ -41,24 +49,28 @@ class Tane::Commands::Create < Tane::Commands::Base
       bushiren        = bushirens       [ rand(bushirens.length)         ]
 
       FileUtils.mv("./tane.log", "./#{ app_name }/log/tane.log")
-      puts "  Finished successfully!"
-      puts "Your app is now in ./#{ app_name }"
+      term.say "  Finished successfully!"
+      term.say "Your app is now in ./#{ app_name }"
+      
       
       Dir.chdir("./#{app_name}") do
-        puts "Launching your new app!"
-        puts "Check out once rails has finished booting http://localhost:3000"
-        puts "#{bushiren} says, \"#{ success_message }\""
+        term.say "Launching your new app!"
+        term.say "Check out once rails has finished booting http://localhost:3000"
+        term.say "#{bushiren} says, \"#{ success_message }\""
         begin
-           # Do this in the background, it'll wait up to 120 seconds
-           # for the rails server to start up and launch a browser as
-           # soon as it's ready
+          # Do this in the background, it'll wait up to 120 seconds
+          # for the rails server to start up and launch a browser as
+          # soon as it's ready
+          verbose_say("Launching `tane open' in the background..")
           system("tane open&")
+          verbose_say("done!")
 
           suppress_env_vars("BUNDLE_BIN_PATH", "BUNDLE_GEMFILE", "RUBYOPT") do
+            verbose_say("launching rails app!")
             exec("bundle exec tane exec rails s")
           end
         rescue Exception => ex
-          puts "Oh no we tried to launch the app but failed. Please try launching it yourself with \n bundle exec tane exec rails s \n if you have problems let us know at support@bushi.do"
+          term.say "Oh no we tried to launch the app but failed. Please try launching it yourself with \n bundle exec tane exec rails s \n if you have problems let us know at support@bushi.do"
         end
       end
 

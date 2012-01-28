@@ -8,9 +8,13 @@ class Tane::Helpers::Init
         update_app
       else
         app = create_app
+        term.say("app: #{app.inspect}")
         make_app_bushido_dir
-        save_envs(get_app_envs(app['name']))
+        term.say("created app and directory, saving bushido environment...")
+        save_envs(get_app_envs(app['app']['name']))
+        term.say("saving email templates...")
         save_emails
+        term.say("done")
       end
 
       term.say "Finished successfully! Check out .bushido/tane.yml for the env vars if you care, or .bushido/emails/#{example_email_template.keys.first}.yml to create email templates to test with"
