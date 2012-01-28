@@ -49,6 +49,11 @@ class Tane::Commands::Create < Tane::Commands::Base
         puts "Check out once rails has finished booting http://localhost:3000"
         puts "#{bushiren} says, \"#{ success_message }\""
         begin
+           # Do this in the background, it'll wait up to 120 seconds
+           # for the rails server to start up and launch a browser as
+           # soon as it's ready
+          system("tane open&")
+
           suppress_env_vars("BUNDLE_BIN_PATH", "BUNDLE_GEMFILE", "RUBYOPT") do
             exec("bundle exec tane exec rails s")
           end

@@ -226,6 +226,22 @@ module Tane
           end
         end
       end
+
+      def try_for(options, &block)
+        options[:seconds] ||= 30
+        options[:sleep]   ||= 5
+
+        start = Time.now
+        elapsed = 0
+
+        while elapsed < options[:seconds]
+          return true if yield elapsed
+          sleep options[:sleep]
+          elapsed = Time.now - start
+        end
+
+        return false
+      end      
     end
   end
 end
