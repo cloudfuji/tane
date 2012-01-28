@@ -23,10 +23,9 @@ class Tane::Commands::Create < Tane::Commands::Base
         File.open("tane.log", "w") do |file|
           verbose = "--verbose" if opts.verbose
           verbose ||= ""
-          system("bundle exec tane init #{verbose}")
-          # IO.popen("bundle exec tane init #{verbose}", :error => [:child, :out]) do |io|
-          #   file.puts(io.read)
-          # end
+          IO.popen("bundle exec tane init #{verbose}", :error => [:child, :out]) do |io|
+            file.puts(io.read)
+          end
         end
       end
 
