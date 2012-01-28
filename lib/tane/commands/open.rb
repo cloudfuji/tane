@@ -3,7 +3,7 @@ require 'launchy'
 class Tane::Commands::Open < Tane::Commands::Base
   class << self
     def process(args)
-      timeout = opts.timeout || 4
+      timeout = opts.timeout || 120
 
       started = try_for(:seconds => timeout) do
         begin
