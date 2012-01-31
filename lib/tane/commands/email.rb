@@ -10,7 +10,7 @@ class Tane::Commands::Email < Tane::Commands::Base
 
     def list_email_templates
       email_templates = Dir["#{email_templates_path}/*.yml"]
-      "#{email_templates.count} email templates found for this app:"
+      term.say "#{email_templates.count} email templates found for this app:"
       email_templates.each { |template| term.say template }
     end
     
@@ -24,6 +24,8 @@ class Tane::Commands::Email < Tane::Commands::Base
 
         exit 1
       end
+
+      email = email[email_name]
 
       post(mail_url, email)
     end
