@@ -1,3 +1,5 @@
+require 'fileutils'
+
 class Tane::Commands::Create < Tane::Commands::Base
   class << self
     def process(args)
@@ -6,14 +8,19 @@ class Tane::Commands::Create < Tane::Commands::Base
       verbose_say("done!")
       
       app_name = args[0] ||= term.ask("Please enter a name for your new app:     ") { |app_name| app_name }
+      target_path = term.ask("Create app in path (defaults to [#{Dir.pwd}/#{app_name}]: ")
+      target_path = "#{Dir.pwd}/#{app_name}" if target_path.to_s == ""
+
       template_url = ENV['KIMONO_URL'] || "https://raw.github.com/Bushido/kimono/master/kimono.rb"
 
-      print "Creating a new Bushido rails app in ./#{ app_name } (please wait, it'll take a few minutes) ...    "
+      print "Creating a new Bushido rails app in #{ target_path } (please wait, it'll take a few minutes) ...    "
+
+      FileUtils.mkdir_p target_path
 
       start_throbber!
 
       File.open("tane.log", "w") do |file|
-        IO.popen("rails new #{app_name} -m #{ template_url }", :error => [:child, :out]) do |io|
+        IO.popen("rails _#{Tane::RAILS_VERSION}_ new #{ target_path } --quiet --template=#{ template_url }", :error => [:child, :out]) do |io|
           file.puts(io.read)
         end
       end
@@ -53,10 +60,17 @@ class Tane::Commands::Create < Tane::Commands::Base
       
       
       Dir.chdir("./#{app_name}") do
-        term.say "Launching your new app!"
-        term.say "Check out once rails has finished booting http://localhost:3000"
-        term.say "#{bushiren} says, \"#{ success_message }\""
         begin
+          term.say "Migrating your new app to setup the basic models..."
+          suppress_env_vars("BUNDLE_BIN_PATH", "BUNDLE_GEMFILE", "RUBYOPT") do
+            verbose_say("migrating database!")
+            system("bundle exec tane exec rake db:migrate")
+          end
+
+          term.say "Launching your new app!"
+          term.say "Check out once rails has finished booting http://localhost:3000"
+          term.say "#{bushiren} says, \"#{ success_message }\""
+
           # Do this in the background, it'll wait up to 120 seconds
           # for the rails server to start up and launch a browser as
           # soon as it's ready
