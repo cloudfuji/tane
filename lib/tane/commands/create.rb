@@ -20,13 +20,13 @@ class Tane::Commands::Create < Tane::Commands::Base
       start_throbber!
 
       File.open("tane.log", "w") do |file|
-        IO.popen("rails _#{Tane::RAILS_VERSION}_ new #{ target_path } --quiet --template=#{ template_url }", :error => [:child, :out]) do |io|
+        IO.popen("rails _#{Tane::RAILS_VERSION}_ new #{ target_path } --quiet --template=#{ template_url } 2>&1 /dev/null", :error => [:child, :out]) do |io|
           file.puts(io.read)
         end
       end
       verbose_say("Finished creating rails app, initializing Bushido resources...")
 
-      Dir.chdir("./#{app_name}")do
+      Dir.chdir("#{ target_path }")do
         File.open("tane.log", "w") do |file|
           verbose = "--verbose" if opts.verbose
           verbose ||= ""
@@ -54,17 +54,26 @@ class Tane::Commands::Create < Tane::Commands::Base
       success_message = success_messages[ rand(success_messages.length) ]
       bushiren        = bushirens       [ rand(bushirens.length)         ]
 
-      FileUtils.mv("./tane.log", "./#{ app_name }/log/tane.log")
+      FileUtils.mv("./tane.log", "#{ target_path }/log/tane.log")
       term.say "  Finished successfully!"
-      term.say "Your app is now in ./#{ app_name }"
+      term.say "Your app is now in #{ target_path }"
       
       
-      Dir.chdir("./#{app_name}") do
+      Dir.chdir("#{ target_path }") do
         begin
           term.say "Migrating your new app to setup the basic models..."
           suppress_env_vars("BUNDLE_BIN_PATH", "BUNDLE_GEMFILE", "RUBYOPT") do
             verbose_say("migrating database!")
             system("bundle exec tane exec rake db:migrate")
+          end
+
+          File.open(".gitignore", "a") { |gitignore| gitignore.puts(".bushido/tane.yml" ) }
+
+          term.say "Initializing git repo..."
+          suppress_env_vars("BUNDLE_BIN_PATH", "BUNDLE_GEMFILE", "RUBYOPT") do
+            verbose_say("initializing git repo")
+            system("git init")
+            system("git add .")
           end
 
           term.say "Launching your new app!"
