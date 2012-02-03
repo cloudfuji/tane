@@ -34,7 +34,7 @@ class Tane::Helpers::Init
         return if not term.agree("#{example_email_template.keys.first} already exists! Are you sure you want to overwrite it? Y/N")
       end
 
-      File.open("#{email_templates_path}/#{example_email_template.keys.first}", "w") do |file|
+      File.open("#{email_templates_path}/#{example_email_template.keys.first}.yml", "w") do |file|
         file.puts email_template_explanation
         file.puts YAML.dump(example_email_template)
       end
