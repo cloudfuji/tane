@@ -20,6 +20,7 @@ Gem::Specification.new do |s|
 
   # specify any dependencies here; for example:
   s.add_development_dependency "rspec"
+  s.add_dependency "sinatra"
   s.add_dependency "awesome_print"
   s.add_dependency "rake"
   s.add_dependency "launchy"

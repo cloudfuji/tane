@@ -2,7 +2,6 @@ require "ostruct"
 require "optparse"
 require "awesome_print"
 require "highline"
-
 require "tane/version"
 require "tane/helpers"
 require "tane/parser"

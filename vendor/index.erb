@@ -1,0 +1,50 @@
+<html>
+  <head>
+    <title>Bushido developer documentation</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script language="javascript">
+      $(document).ready(function() {
+        $(".exec_command").bind("click", function(){
+          postCommand($(this).prev().html(), "/tane_exec")
+        });
+
+        $(".eval_command").bind("click", function(){
+          postCommand($(this).prev().html(), "/tane_eval")
+        });
+
+        postCommand = function(command, url) {
+          $.post(url, {command: command});
+        }
+      });
+    </script>
+    <style type="text/css">
+      pre {
+        background: #F0F0F0;
+        border: 1px solid #CCC;
+        padding: 5px
+      }
+      button {
+        background: #F1F1F1;
+        border-radius: 4px;
+        font-size: 14px
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Bushido Try-And-Buy</h1>
+
+    <h3>Create an app</h3>
+    <p><pre>tane create bushido_example</pre><button class="exec_command">click to run in shell</button></p>
+
+    <hr>
+
+    <h3>To run anything in a Bushido environment</h3>
+    <p><pre>tane exec "ruby -e \"puts ENV['HOSTING_PLATFORM']\""</pre><button class="exec_command">click to run in shell</button></p>
+
+    <hr>
+
+    <h3>Publishing events</h3>
+    <p><pre>Bushido::Event.publish({category: :support_case, name: :open, data: {human: "John Doe says Hi"}})</pre><button class="eval_command">click to evaluate</button></p>
+  </body>
+</html>
