@@ -47,7 +47,7 @@ describe Tane::Commands::Support do
       subject.should_receive(:logged_in?).and_return(true)
       subject.should_receive(:username).and_return("valid_username")
 
-      Tane::Commands::Support.email_from_credentials_or_prompt.should == "valid_username"
+      subject.email_from_credentials_or_prompt.should == "valid_username"
     end
 
     it "should return the input from prompt if the user is not logged in" do

@@ -61,7 +61,7 @@ describe Tane::Helpers::Cloudfuji do
       }
       
       RestClient.should_receive(:get).
-        with(@bushido_create_url, @params).
+        with(@cloudfuji_create_url, @params).
         and_return(result_with_auth_token.to_json)
 
       subject.signup("email", "password").should == [result_with_auth_token[:authentication_token], nil]
