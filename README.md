@@ -20,3 +20,7 @@ The create command will then make a new directory using that passed
 name. If you don't pass a name, it will ask you for one.  The create
 command will use the directory specified to generate a new rails 3 app
 based on a Bushido app template.
+
+## Running tests
+
+    bundle exec rspec spec
