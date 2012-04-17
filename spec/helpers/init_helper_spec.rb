@@ -110,7 +110,7 @@ describe Tane::Helpers::Init do
     before :each do
       @params = {
         :app => {
-          :url => "https://github.com/Bushido/tane.git",
+          :url => "https://github.com/cloudfuji/tane.git",
           :platform => "developer"
         },
         :authentication_token => "valid_auth_token"
