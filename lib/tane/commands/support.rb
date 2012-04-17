@@ -1,11 +1,11 @@
 class Tane::Commands::Support < Tane::Commands::Base
   class << self
     def process(args)
-      message = term.ask("Your message to the Bushido clan: ")
-      send_message_to_bushido(message)
+      message = term.ask("Your message to the Cloudfuji clan: ")
+      send_message_to_cloudfuji(message)
     end
 
-    def send_message_to_bushido(message)
+    def send_message_to_cloudfuji(message)
       support_data = {}
       support_data[:source]  = "tane"
       support_data[:email]   = email_from_credentials_or_prompt
@@ -13,7 +13,7 @@ class Tane::Commands::Support < Tane::Commands::Base
 
       RestClient.post support_url, support_data
 
-      term.say("Send the bushido team your message:")
+      term.say("Send the Cloudfuji team your message:")
       term.say("\t#{message}")
       term.say("Boy are they gonna be excited to hear from you, #{support_data[:email]}")
     end
@@ -29,7 +29,7 @@ Usage:
 
     tane support
 
-Prompts you for a message to send to the Bushido team.
+Prompts you for a message to send to the Cloudfuji team.
 EOL
     end
   end

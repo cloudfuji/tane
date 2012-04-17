@@ -6,7 +6,7 @@ class Tane::Commands::Logout < Tane::Commands::Base
         destroy_credentials
         term.say "Finished! All gone! Buh bye!"
       else
-        term.say "Couldn't find any Bushido account on this computer... kind of lonesome in that way, what with just you and me and all..."
+        term.say "Couldn't find any Cloudfuji account on this computer... kind of lonesome in that way, what with just you and me and all..."
       end
     end
 
@@ -17,7 +17,7 @@ Usage:
 
     tane logout
 
-Deletes the Bushido credentials from the user's `$HOME` directory.
+Deletes the Cloudfuji credentials from the user's `$HOME` directory.
 EOL
     end
   end

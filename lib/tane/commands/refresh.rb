@@ -17,8 +17,8 @@ Usage:
 
     tane refresh
 
-Updates the Bushido environment for the local application from the
-latest settings from the Bushido server.
+Updates the Cloudfuji environment for the local application from the
+latest settings from the Cloudfuji server.
 EOL
     end   
   end

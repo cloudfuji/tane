@@ -11,9 +11,9 @@ class Tane::Commands::Create < Tane::Commands::Base
       target_path = term.ask("Create app in path (defaults to [#{Dir.pwd}/#{app_name}]: ")
       target_path = "#{Dir.pwd}/#{app_name}" if target_path.to_s == ""
 
-      template_url = ENV['KIMONO_URL'] || "https://raw.github.com/Bushido/kimono/master/kimono.rb"
+      template_url = ENV['KIMONO_URL'] || "https://raw.github.com/cloudfuji/kimono/master/kimono.rb"
 
-      print "Creating a new Bushido rails app in #{ target_path } (please wait, it'll take a few minutes) ...    "
+      print "Creating a new Cloudfuji rails app in #{ target_path } (please wait, it'll take a few minutes) ...    "
 
       FileUtils.mkdir_p target_path
 
@@ -24,7 +24,7 @@ class Tane::Commands::Create < Tane::Commands::Base
           file.puts(io.read)
         end
       end
-      verbose_say("Finished creating rails app, initializing Bushido resources...")
+      verbose_say("Finished creating rails app, initializing Cloudfuji resources...")
 
       Dir.chdir("#{ target_path }")do
         File.open("tane.log", "w") do |file|
@@ -67,7 +67,7 @@ class Tane::Commands::Create < Tane::Commands::Base
             system("bundle exec tane exec rake db:migrate")
           end
 
-          File.open(".gitignore", "a") { |gitignore| gitignore.puts(".bushido/tane.yml" ) }
+          File.open(".gitignore", "a") { |gitignore| gitignore.puts(".cloudfuji/tane.yml" ) }
 
           term.say "Initializing git repo..."
           suppress_env_vars("BUNDLE_BIN_PATH", "BUNDLE_GEMFILE", "RUBYOPT") do
@@ -104,7 +104,7 @@ Usage:
 
     tane create 'app_name'
 
-Creates a new Bushido-enabled rails app from scratch and launches it. Use this to get started with Bushido quickly and easily
+Creates a new Cloudfuji-enabled rails app from scratch and launches it. Use this to get started with Cloudfuji quickly and easily
 
     tane create my_example_app
 EOL

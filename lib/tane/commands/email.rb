@@ -18,7 +18,7 @@ class Tane::Commands::Email < Tane::Commands::Base
       email = render_email(email_name)
 
       if email.nil?
-        term.say "Couldn't find any email with the title '#{email_name}', are you sure there is a .bushido/emails/#{email_name}.yml? "
+        term.say "Couldn't find any email with the title '#{email_name}', are you sure there is a .cloudfuji/emails/#{email_name}.yml? "
         term.say "Here are the email templates for this app..."
         list_email_templates
 

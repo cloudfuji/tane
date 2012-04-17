@@ -3,30 +3,30 @@ class Tane::Helpers::Init
 
   class << self
     def initialize_app
-      term.say "Initializing a local Bushido app for this rails app..."
-      if bushido_app_exists?
+      term.say "Initializing a local Cloudfuji app for this rails app..."
+      if cloudfuji_app_exists?
         update_app
       else
         app = create_app
-        make_app_bushido_dir
+        make_app_cloudfuji_dir
         save_envs(get_app_envs(app['app']['name']))
         save_emails
       end
 
-      term.say "Finished successfully! Check out .bushido/tane.yml for the env vars if you care, or .bushido/emails/#{example_email_template.keys.first}.yml to create email templates to test with"
+      term.say "Finished successfully! Check out .cloudfuji/tane.yml for the env vars if you care, or .cloudfuji/emails/#{example_email_template.keys.first}.yml to create email templates to test with"
     end
 
     def update_app
-      save_envs(get_app_envs(bushido_envs['BUSHIDO_NAME']))
+      save_envs(get_app_envs(_envs['CLOUDFUJI_NAME']))
     end
 
-    # TODO: Replace envs_template with values retrieved from Bushido side
+    # TODO: Replace envs_template with values retrieved from Cloudfuji side
     def save_envs(env_vars)
-      if File.exists?('.bushido/tane.yml')
-        return if not term.agree('.bushido/tane.yml already exists! Are you sure you want to overwrite it? Y/N')
+      if File.exists?('.cloudfuji/tane.yml')
+        return if not term.agree('.cloudfuji/tane.yml already exists! Are you sure you want to overwrite it? Y/N')
       end
 
-      File.open('.bushido/tane.yml', 'w+') { |file| file.puts YAML.dump(envs_template(env_vars)) }
+      File.open('.cloudfuji/tane.yml', 'w+') { |file| file.puts YAML.dump(envs_template(env_vars)) }
     end
 
     def save_emails
@@ -43,15 +43,15 @@ class Tane::Helpers::Init
     def envs_template(app_envs)
       envs = {}
       env_var_keys = [
-        'APP_TLD',              'BUNDLE_WITHOUT',   'BUSHIDO_APP',          'BUSHIDO_APP_KEY',
-        'BUSHIDO_DOMAIN',       'BUSHIDO_EVENTS',   'BUSHIDO_HOST',         'BUSHIDO_NAME',
-        'BUSHIDO_PROJECT_NAME', 'BUSHIDO_SALT',     'BUSHIDO_SUBDOMAIN',    
-        'B_SQL_DB',             'B_SQL_PASS',       'B_SQL_USER',           'DATABASE_URL',
-        'HOSTING_PLATFORM',     'LANG',             'PUBLIC_URL',           'RACK_ENV',
-        'RAILS_ENV',            'S3_ACCESS_KEY_ID', 'S3_ARN',               'S3_BUCKET',
-        'SHARED_DATABASE_URL',  'S3_PREFIX',        'S3_SECRET_ACCESS_KEY', 'STS_SESSION_TOKEN',           
-        'SMTP_AUTHENTICATION',  'SMTP_DOMAIN',      'SMTP_PASSWORD',
-        'SMTP_PORT',            'SMTP_SERVER',      'SMTP_TLS',             'SMTP_USER'
+        'APP_TLD',                'BUNDLE_WITHOUT',     'CLOUDFUJI_APP',        'CLOUDFUJI_APP_KEY',
+        'CLOUDFUJI_DOMAIN',       'CLOUDFUJI_EVENTS',   'CLOUDFUJI_HOST',       'CLOUDFUJI_NAME',
+        'CLOUDFUJI_PROJECT_NAME', 'CLOUDFUJI_SALT',     'CLOUDFUJI_SUBDOMAIN',    
+        'B_SQL_DB',               'B_SQL_PASS',         'B_SQL_USER',           'DATABASE_URL',
+        'HOSTING_PLATFORM',       'LANG',               'PUBLIC_URL',           'RACK_ENV',
+        'RAILS_ENV',              'S3_ACCESS_KEY_ID',   'S3_ARN',               'S3_BUCKET',
+        'SHARED_DATABASE_URL',    'S3_PREFIX',          'S3_SECRET_ACCESS_KEY', 'STS_SESSION_TOKEN',           
+        'SMTP_AUTHENTICATION',    'SMTP_DOMAIN',        'SMTP_PASSWORD',
+        'SMTP_PORT',              'SMTP_SERVER',        'SMTP_TLS',             'SMTP_USER'
       ]
  
       env_var_keys.each { |env_var_key| envs[env_var_key] = app_envs[env_var_key] }
@@ -101,11 +101,11 @@ EOL
     end
 
     def create_app
-      JSON(RestClient.post("#{bushido_url}/apps.json", {:app => {:url => "https://github.com/Bushido/tane.git", :platform => "developer"}, :authentication_token => password}))
+      JSON(RestClient.post("#{cloudfuji_url}/apps.json", {:app => {:url => "https://github.com/cloudfuji/tane.git", :platform => "developer"}, :authentication_token => password}))
     end
 
     def get_app_envs(app_name)
-      result = JSON(RestClient.get("#{bushido_url}/apps/#{app_name}.json", {:params => {:authentication_token => password}}))
+      result = JSON(RestClient.get("#{cloudfuji_url}/apps/#{app_name}.json", {:params => {:authentication_token => password}}))
       result["app"]["full_app_env_vars"]
     end
   end
