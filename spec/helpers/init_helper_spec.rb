@@ -17,7 +17,7 @@ describe Tane::Helpers::Init do
 
   describe ".initialize_app" do
     it "should display initialization message and success message" do
-      subject.should_receive(:create_app).and_return({'name'=>'sample'})
+      subject.should_receive(:create_app).and_return({'app' => {'name'=>'sample'}})
       subject.should_receive(:make_app_cloudfuji_dir)
       subject.should_receive(:get_app_envs)
       subject.should_receive(:save_envs)
