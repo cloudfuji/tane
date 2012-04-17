@@ -45,12 +45,13 @@ describe Tane::Commands::Email do
 
     it "should post to mail url of the local app if email template is available" do
       email_template_name = "valid_email_template_name"
-      email_template = "valid_email_template"
+      email_template      = "valid_email_template"
+      email               = {email_template_name => email_template}
       cloudfuji_mail_url = subject.mail_url
       
       subject.should_receive(:render_email)
         .with(email_template_name)
-        .and_return(email_template)
+        .and_return(email)
       
       subject.should_receive(:post)
         .with(cloudfuji_mail_url, email_template)
