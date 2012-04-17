@@ -74,7 +74,7 @@ describe Tane::Helpers::Cloudfuji do
       }
 
       RestClient.should_receive(:get).
-        with(@bushido_create_url, @params).and_return(result_with_error.to_json)
+        with(@cloudfuji_create_url, @params).and_return(result_with_error.to_json)
 
       subject.signup("email", "password").should == [nil, result_with_error[:errors]]
     end

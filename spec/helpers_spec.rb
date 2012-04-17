@@ -35,7 +35,7 @@ describe Tane::Helpers do
     end
 
     describe "email_templates_path" do
-      it "should return path to the template file in the project's .bushido dir" do
+      it "should return path to the template file in the project's .cloudfuji dir" do
         subject.email_templates_path.should == ".cloudfuji/emails"
       end
     end
@@ -83,7 +83,7 @@ describe Tane::Helpers do
     end
 
     describe "cloudfuji_app_exists?" do
-      it "it should return true if the .cloudfuji/tane.yml file and .bushido/emails dir exists in the current directory" do
+      it "it should return true if the .cloudfuji/tane.yml file and .cloudfuji/emails dir exists in the current directory" do
         File.should_receive(:exists?).and_return(true)
         File.should_receive(:directory?).and_return(true)
         subject.cloudfuji_app_exists?.should be_true

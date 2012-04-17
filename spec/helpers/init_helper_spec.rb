@@ -18,7 +18,7 @@ describe Tane::Helpers::Init do
   describe ".initialize_app" do
     it "should display initialization message and success message" do
       subject.should_receive(:create_app).and_return({'name'=>'sample'})
-      subject.should_receive(:make_app_bushido_dir)
+      subject.should_receive(:make_app_cloudfuji_dir)
       subject.should_receive(:get_app_envs)
       subject.should_receive(:save_envs)
       subject.should_receive(:save_emails)
@@ -30,7 +30,7 @@ describe Tane::Helpers::Init do
 
   describe "update_app" do
     it "should save the environment variables for the app" do
-      subject.should_receive(:bushido_envs).
+      subject.should_receive(:cloudfuji_envs).
         and_return({'CLOUDFUJI_NAME' => 'sample_app'})
 
       subject.should_receive(:get_app_envs)
@@ -66,7 +66,7 @@ describe Tane::Helpers::Init do
   end
 
   describe "save_emails" do
-    it "should create a sample email template file to .bushido/emails dir if it does not exist" do
+    it "should create a sample email template file to .cloudfuji/emails dir if it does not exist" do
       File.should_receive(:exists?).and_return(false)
       File.should_receive(:open)
 

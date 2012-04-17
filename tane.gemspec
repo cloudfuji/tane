@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.authors     = ["Bushido Team"]
   s.email       = ["support@gobushido.com"]
   s.homepage    = ""
-  s.summary     = %q{Enables local development of Bushido apps}
-  s.description = %q{This gem provides all the tools necessary to develop a rails app meant for deployment on Bushido locally}
+  s.summary     = %q{Enables local development of Cloudfuji apps}
+  s.description = %q{This gem provides all the tools necessary to develop a rails app meant for deployment on Cloudfuji locally}
 
   s.rubyforge_project = "tane"
 
