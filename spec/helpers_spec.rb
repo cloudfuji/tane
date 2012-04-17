@@ -115,7 +115,7 @@ describe Tane::Helpers do
       it "should create a .cloudfuji dir in the current dir if it does not have one" do
         subject.should_receive(:cloudfuji_app_exists?).and_return(false)
         FileUtils.should_receive(:mkdir_p).with(".cloudfuji/emails")
-        subject.make_app_bushido_dir
+        subject.make_app_cloudfuji_dir
       end
 
       it "should *not* create a .cloudfuji in the current dir if it already has not" do

@@ -17,7 +17,7 @@ class Tane::Helpers::Init
     end
 
     def update_app
-      save_envs(get_app_envs(_envs['CLOUDFUJI_NAME']))
+      save_envs(get_app_envs(cloudfuji_envs['CLOUDFUJI_NAME']))
     end
 
     # TODO: Replace envs_template with values retrieved from Cloudfuji side

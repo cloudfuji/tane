@@ -33,10 +33,10 @@ describe Tane::Commands::Support do
     
     it "should display the message being sent" do
       subject.term.should_receive(:say).at_least(3)
-      subject.send_message_to_bushido(@message)
+      subject.send_message_to_cloudfuji(@message)
     end
 
-    it "should send a message to Bushido team" do
+    it "should send a message to Cloudfuji team" do
       subject.send_message_to_cloudfuji(@message)
     end
 
