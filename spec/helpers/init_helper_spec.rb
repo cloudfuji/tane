@@ -6,7 +6,7 @@ describe Tane::Helpers::Init do
   # TODO: Each test should use mktmp dir instead of running in its own
   # dir, it's dangerous
   before(:each) do
-    FileUtils.rm_rf(".bushido")
+    FileUtils.rm_rf(".cloudfuji")
   end
 
   it "should include Tane::Helpers" do
@@ -16,7 +16,7 @@ describe Tane::Helpers::Init do
   describe ".initialize_app" do
     it "should display initialization message and success message" do
       Tane::Helpers::Init.should_receive(:create_app).and_return({'name'=>'sample'})
-      Tane::Helpers::Init.should_receive(:make_app_bushido_dir)
+      Tane::Helpers::Init.should_receive(:make_app_cloudfuji_dir)
       Tane::Helpers::Init.should_receive(:get_app_envs)
       Tane::Helpers::Init.should_receive(:save_envs)
       Tane::Helpers::Init.should_receive(:save_emails)
@@ -28,8 +28,8 @@ describe Tane::Helpers::Init do
 
   describe "update_app" do
     it "should save the environment variables for the app" do
-      Tane::Helpers::Init.should_receive(:bushido_envs).
-        and_return({'BUSHIDO_NAME' => 'sample_app'})
+      Tane::Helpers::Init.should_receive(:cloudfuji_envs).
+        and_return({'CLOUDFUJI_NAME' => 'sample_app'})
 
       Tane::Helpers::Init.should_receive(:get_app_envs)
       Tane::Helpers::Init.should_receive(:save_envs)
@@ -39,14 +39,14 @@ describe Tane::Helpers::Init do
   end
 
   describe ".save_envs" do
-    it "should write a .bushido/tane.yml file if it does not exist" do
+    it "should write a .cloudfuji/tane.yml file if it does not exist" do
       File.should_receive(:exists?).and_return(false)
       File.should_receive(:open)
 
       Tane::Helpers::Init.save_envs({})
     end
 
-    it "should write a .bushido/tane.yml file if it already exists and if the user agrees to an overwrite" do
+    it "should write a .cloudfuji/tane.yml file if it already exists and if the user agrees to an overwrite" do
       File.should_receive(:exists?).and_return(true)
       Tane::Helpers::Init.term.should_receive(:agree).and_return(true)
       File.should_receive(:open)
@@ -54,7 +54,7 @@ describe Tane::Helpers::Init do
       Tane::Helpers::Init.save_envs({})
     end
 
-    it "should *not* write a .bushido/tane.yml file if the user says no to an overwrite" do
+    it "should *not* write a .cloudfuji/tane.yml file if the user says no to an overwrite" do
       File.should_receive(:exists?).and_return(true)
       Tane::Helpers::Init.term.should_receive(:agree).and_return(false)
       File.should_not_receive(:open)
@@ -64,7 +64,7 @@ describe Tane::Helpers::Init do
   end
 
   describe "save_emails" do
-    it "should create a sample email template file to .bushido/emails dir if it does not exist" do
+    it "should create a sample email template file to .cloudfuji/emails dir if it does not exist" do
       File.should_receive(:exists?).and_return(false)
       File.should_receive(:open)
 
@@ -108,18 +108,18 @@ describe Tane::Helpers::Init do
     before :each do
       @params = {
         :app => {
-          :url => "https://github.com/Bushido/tane.git",
+          :url => "https://github.com/Cloudfuji/tane.git",
           :platform => "developer"
         },
         :authentication_token => "valid_auth_token"
       }
-      @bushido_apps_url = "#{Tane::Helpers::Init.bushido_url}/apps.json"
+      @cloudfuji_apps_url = "#{Tane::Helpers::Init.cloudfuji_url}/apps.json"
     end
     
     it "should create an app" do
       Tane::Helpers::Init.should_receive(:password).at_least(1).and_return("valid_auth_token")
       RestClient.should_receive(:post).
-        with(@bushido_apps_url, @params).
+        with(@cloudfuji_apps_url, @params).
         and_return('{}')
       Tane::Helpers::Init.create_app
     end

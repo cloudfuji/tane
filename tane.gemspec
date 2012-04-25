@@ -5,11 +5,11 @@ require "tane/version"
 Gem::Specification.new do |s|
   s.name        = "tane"
   s.version     = Tane::VERSION
-  s.authors     = ["Bushido Team"]
-  s.email       = ["support@gobushido.com"]
+  s.authors     = ["Cloudfuji Team"]
+  s.email       = ["support@gocloudfuji.com"]
   s.homepage    = ""
-  s.summary     = %q{Enables local development of Bushido apps}
-  s.description = %q{This gem provides all the tools necessary to develop a rails app meant for deployment on Bushido locally}
+  s.summary     = %q{Enables local development of Cloudfuji apps}
+  s.description = %q{This gem provides all the tools necessary to develop a rails app meant for deployment on Cloudfuji locally}
 
   s.rubyforge_project = "tane"
 
@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.add_dependency "awesome_print"
   s.add_dependency "rake"
   s.add_dependency "launchy"
-  s.add_dependency "rails", Tane::RAILS_VERSION
+  #s.add_dependency "rails", Tane::RAILS_VERSION
   s.add_runtime_dependency "erubis"
   s.add_runtime_dependency "rest-client"
   s.add_runtime_dependency "highline"

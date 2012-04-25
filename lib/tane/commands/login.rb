@@ -22,8 +22,8 @@ class Tane::Commands::Login < Tane::Commands::Base
     
     
     def verify_or_signup(email, password)
-      term.say "contacting bushido, please wait..."
-      auth_token, errors = Tane::Helpers::Bushido.verify_credentials(email, password)
+      term.say "contacting cloudfuji, please wait..."
+      auth_token, errors = Tane::Helpers::Cloudfuji.verify_credentials(email, password)
       
       return auth_token if not auth_token.nil?
 
@@ -40,7 +40,7 @@ class Tane::Commands::Login < Tane::Commands::Base
     
     def signup_and_notify(email, password)
       term.say "Trying to sign up with those credentials..."
-      auth_token, errors = Tane::Helpers::Bushido.signup(email, password)
+      auth_token, errors = Tane::Helpers::Cloudfuji.signup(email, password)
 
       display_errors_and_exit(errors) if auth_token.nil?
       
@@ -67,7 +67,7 @@ class Tane::Commands::Login < Tane::Commands::Base
         "Please try one of the following:",
         "\t1. Log in again with different credentials",
         "\t2. Send us a help message from the command line via `tane support 'Hey guys, having trouble logging in with tane...'`",
-        "\t3. Contact us by email at support@gobushido.com if you're having trouble!",
+        "\t3. Contact us by email at support@gocloudfuji.com if you're having trouble!",
         "Seriously, isn't it cool to be able to send a support message straight from the cli? It's like you're the fonz"]
 
       messages.each do |message|
@@ -83,7 +83,7 @@ Usage:
 
     tane login
     
-Logs you into the Bushido and stores the credentials in `~/.bushido/credentials.yml` file. It only stores your email and an authentication token. Your password is not stored. This is required if you want to run local applications in a Bushido environment. It prompts you to signup if you do not have a Bushido account.
+Logs you into the Cloudfuji and stores the credentials in `~/.cloudfuji/credentials.yml` file. It only stores your email and an authentication token. Your password is not stored. This is required if you want to run local applications in a Cloudfuji environment. It prompts you to signup if you do not have a Cloudfuji account.
 EOL
     end
     

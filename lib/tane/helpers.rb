@@ -25,12 +25,12 @@ module Tane
         @opts ||= OpenStruct.new
       end
 
-      def bushido_url
-        ENV['BUSHIDO_URL'] || "http://bushi.do"
+      def cloudfuji_url
+        ENV['CLOUDFUJI_URL'] || "http://cloudfuji.com"
       end
       
-      def bushido_dir
-        "#{ENV['HOME']}/.bushido"
+      def cloudfuji_dir
+        "#{ENV['HOME']}/.cloudfuji"
       end
 
       def email_template_file_path(template_name)
@@ -38,15 +38,15 @@ module Tane
       end
       
       def email_templates_path
-        ".bushido/emails"
+        ".cloudfuji/emails"
       end
 
       def tane_file_path
-        ".bushido/tane.yml"
+        ".cloudfuji/tane.yml"
       end
 
       def credentials_file_path
-        "#{bushido_dir}/credentials.yml"
+        "#{cloudfuji_dir}/credentials.yml"
       end
 
       def credentials
@@ -65,15 +65,15 @@ module Tane
         Dir.exists?('./rails') || Dir.exists?('./script')
       end
 
-      def bushido_app_exists?
-        File.exists?('.bushido/tane.yml') and File.directory?('.bushido/emails')
+      def cloudfuji_app_exists?
+        File.exists?('.cloudfuji/tane.yml') and File.directory?('.cloudfuji/emails')
       end
 
       def username
         begin
           return credentials[:username]
         rescue
-          term.say "Looks like your Bushido credentials file is corrupted - try deleting ~/.bushido/credentials.yml and then logging in again"
+          term.say "Looks like your Cloudfuji credentials file is corrupted - try deleting ~/.cloudfuji/credentials.yml and then logging in again"
           exit 1
         end
       end
@@ -82,22 +82,22 @@ module Tane
         begin
           return credentials[:password]
         rescue
-          term.say "Looks like your Bushido credentials file is corrupted - try deleting ~/.bushido/credentials.yml and then logging in again"
+          term.say "Looks like your Cloudfuji credentials file is corrupted - try deleting ~/.cloudfuji/credentials.yml and then logging in again"
           exit 1
         end
       end
 
-      def make_global_bushido_dir
-        FileUtils.mkdir_p bushido_dir
+      def make_global_cloudfuji_dir
+        FileUtils.mkdir_p cloudfuji_dir
       end
 
-      def make_app_bushido_dir
-        if bushido_app_exists?
-          term.say("There's already a Bushido app created for this local rails app. If you'd like to create a new one, please remove the .bushido file in this directory")
+      def make_app_cloudfuji_dir
+        if cloudfuji_app_exists?
+          term.say("There's already a Cloudfuji app created for this local rails app. If you'd like to create a new one, please remove the .cloudfuji file in this directory")
 
           exit 1
         else
-          FileUtils.mkdir_p '.bushido/emails'
+          FileUtils.mkdir_p '.cloudfuji/emails'
         end
       end
       
@@ -111,7 +111,7 @@ module Tane
         new_credentials = credentials rescue {}
         new_credentials[:username] = username
         new_credentials[:password] = password
-        Dir.mkdir(bushido_dir) unless File.exists?(bushido_dir)
+        Dir.mkdir(cloudfuji_dir) unless File.exists?(cloudfuji_dir)
         File.open(credentials_file_path, 'w+') { |file| file.puts YAML.dump(new_credentials) }
       end
 
@@ -123,7 +123,7 @@ module Tane
 
       def warn_if_credentials
         if logged_in?
-          if term.agree("This computer already has the Bushido user '#{username}' logged in, are you sure you would like to proceed? Y/N")
+          if term.agree("This computer already has the Cloudfuji user '#{username}' logged in, are you sure you would like to proceed? Y/N")
             term.say("Ok, continuing along like nothing happened")
           else
             term.say("Phew, I think we might have dodged a bullet there!")
@@ -132,8 +132,8 @@ module Tane
         end
       end
 
-      def bushido_envs
-        YAML.load(ERB.new(File.read( '.bushido/tane.yml' )).result)
+      def cloudfuji_envs
+        YAML.load(ERB.new(File.read( '.cloudfuji/tane.yml' )).result)
       end
 
       def base_url
@@ -141,23 +141,23 @@ module Tane
       end
 
       def data_url
-        "#{base_url}/bushido/data"
+        "#{base_url}/cloudfuji/data"
       end
 
       def support_url
-        "#{bushido_url}/support/v1/message"
+        "#{cloudfuji_url}/support/v1/message"
       end
 
       def envs_url
-        "#{base_url}/bushido/envs"
+        "#{base_url}/cloudfuji/envs"
       end
 
       def mail_url
-        "#{base_url}/bushido/mail"
+        "#{base_url}/cloudfuji/mail"
       end
 
       def post(url, data)
-        data['key'] = bushido_envs["BUSHIDO_APP_KEY"]
+        data['key'] = cloudfuji_envs["CLOUDFUJI_APP_KEY"]
 
         verbose_say("RestClient.put #{url}, #{data.inspect}, :content_type => :json, :accept => :json)")
         result = JSON(RestClient.put url, data, :content_type => :json, :accept => :json)

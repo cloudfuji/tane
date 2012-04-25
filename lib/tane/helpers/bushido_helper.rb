@@ -1,16 +1,16 @@
-class Tane::Helpers::Bushido
+class Tane::Helpers::Cloudfuji
   include Tane::Helpers
   
   class << self
-    def bushido_url
-      ENV['BUSHIDO_URL'] || "http://bushi.do"
+    def cloudfuji_url
+      ENV['CLOUDFUJI_URL'] || "http://cloudfuji.com"
     end
 
     # Returns nil if credentials are invalid
     # Returns the authentication_token if credentials are valid
     def verify_credentials(email, password)
       begin
-        result = JSON(RestClient.get("#{bushido_url}/users/verify.json", { :params => {:email => email, :password => password }}))
+        result = JSON(RestClient.get("#{cloudfuji_url}/users/verify.json", { :params => {:email => email, :password => password }}))
         if result['errors'].nil?
           return result['authentication_token'], nil
         else
@@ -22,11 +22,11 @@ class Tane::Helpers::Bushido
     end
     
     def signup(email, password)
-      term.say "Contacting bushido..."
-      term.say "(using #{bushido_url}/users/create.json)"
+      term.say "Contacting cloudfuji..."
+      term.say "(using #{cloudfuji_url}/users/create.json)"
 
       begin
-        result = JSON(RestClient.get("#{bushido_url}/users/create.json", { :params => {:email => email, :password => password }}))
+        result = JSON(RestClient.get("#{cloudfuji_url}/users/create.json", { :params => {:email => email, :password => password }}))
 
         if result['errors'].nil?
           return result['authentication_token'], nil

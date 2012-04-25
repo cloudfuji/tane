@@ -26,33 +26,33 @@ describe "Tane::Helpers" do
       end
     end
 
-    describe "bushido_dir" do
-      it "should return the path of the user's .bushido directory" do
-        Tane::Helpers::Example.bushido_dir.should == "#{ENV['HOME']}/.bushido"
+    describe "cloudfuji_dir" do
+      it "should return the path of the user's .cloudfuji directory" do
+        Tane::Helpers::Example.cloudfuji_dir.should == "#{ENV['HOME']}/.cloudfuji"
       end
     end
 
     describe "email_templates_path" do
-      it "should return path to the template file in the project's .bushido dir" do
-        Tane::Helpers::Example.email_templates_path.should == ".bushido/emails"
+      it "should return path to the template file in the project's .cloudfuji dir" do
+        Tane::Helpers::Example.email_templates_path.should == ".cloudfuji/emails"
       end
     end
     
     describe "email_template_file_path" do
-      it "should return path to the template file in the project's .bushido dir" do
-        Tane::Helpers::Example.email_template_file_path("valid_template").should == ".bushido/emails/valid_template.yml"
+      it "should return path to the template file in the project's .cloudfuji dir" do
+        Tane::Helpers::Example.email_template_file_path("valid_template").should == ".cloudfuji/emails/valid_template.yml"
       end
     end
 
     describe "tane_file_path" do
-      it "should return path to xsycurrent project's .bushido/tane.yml" do
-        Tane::Helpers::Example.tane_file_path == ".bushido/tane.yml"
+      it "should return path to xsycurrent project's .cloudfuji/tane.yml" do
+        Tane::Helpers::Example.tane_file_path == ".cloudfuji/tane.yml"
       end
     end
 
     describe "credentials_file_path" do
-      it "should return path to user's Bushido credentials file" do
-        Tane::Helpers::Example.credentials_file_path == "#{ENV['HOME']}/.bushido/credentials.yml"
+      it "should return path to user's Cloudfuji credentials file" do
+        Tane::Helpers::Example.credentials_file_path == "#{ENV['HOME']}/.cloudfuji/credentials.yml"
       end
     end
 
@@ -80,11 +80,11 @@ describe "Tane::Helpers" do
       end
     end
 
-    describe "bushido_app_exists?" do
-      it "it should return true if the .bushido/tane.yml file and .bushido/emails dir exists in the current directory" do
+    describe "cloudfuji_app_exists?" do
+      it "it should return true if the .cloudfuji/tane.yml file and .cloudfuji/emails dir exists in the current directory" do
         File.should_receive(:exists?).and_return(true)
         File.should_receive(:directory?).and_return(true)
-        Tane::Helpers::Example.bushido_app_exists?.should be_true
+        Tane::Helpers::Example.cloudfuji_app_exists?.should be_true
       end
     end
 
@@ -102,30 +102,30 @@ describe "Tane::Helpers" do
       end
     end
 
-    describe "make_global_bushido_dir" do
-      it "should create a .bushido dir in the user's $HOME directory" do
-        FileUtils.should_receive(:mkdir_p).with("#{ENV['HOME']}/.bushido")
-        Tane::Helpers::Example.make_global_bushido_dir
+    describe "make_global_cloudfuji_dir" do
+      it "should create a .cloudfuji dir in the user's $HOME directory" do
+        FileUtils.should_receive(:mkdir_p).with("#{ENV['HOME']}/.cloudfuji")
+        Tane::Helpers::Example.make_global_cloudfuji_dir
       end
     end
 
-    describe "make_app_bushido_dir" do
-      it "should create a .bushido dir in the current dir if it does not have one" do
-        Tane::Helpers::Example.should_receive(:bushido_app_exists?).and_return(false)
-        FileUtils.should_receive(:mkdir_p).with(".bushido/emails")
-        Tane::Helpers::Example.make_app_bushido_dir
+    describe "make_app_cloudfuji_dir" do
+      it "should create a .cloudfuji dir in the current dir if it does not have one" do
+        Tane::Helpers::Example.should_receive(:cloudfuji_app_exists?).and_return(false)
+        FileUtils.should_receive(:mkdir_p).with(".cloudfuji/emails")
+        Tane::Helpers::Example.make_app_cloudfuji_dir
       end
 
-      it "should *not* create a .bushido in the current dir if it already has not" do
-        Tane::Helpers::Example.should_receive(:bushido_app_exists?).and_return(true)
+      it "should *not* create a .cloudfuji in the current dir if it already has not" do
+        Tane::Helpers::Example.should_receive(:cloudfuji_app_exists?).and_return(true)
         expect {
-          Tane::Helpers::Example.make_app_bushido_dir
+          Tane::Helpers::Example.make_app_cloudfuji_dir
         }.to raise_error(SystemExit)
       end
     end
 
     describe "save_credentials" do
-      it "should save the username and the password in the user's bushido_dir" do
+      it "should save the username and the password in the user's cloudfuji_dir" do
         File.should_receive(:open)
         Tane::Helpers::Example.save_credentials("email", "auth_token")
       end
@@ -169,10 +169,10 @@ describe "Tane::Helpers" do
       end
     end
 
-    describe "bushido_envs" do
-      it "should return the read the data in .bushido/tane.yml and return a hash" do
+    describe "cloudfuji_envs" do
+      it "should return the read the data in .cloudfuji/tane.yml and return a hash" do
         File.should_receive(:read).and_return('HOSTING_PLATFORM: developer')
-        Tane::Helpers::Example.bushido_envs.should == {"HOSTING_PLATFORM"=> "developer"}
+        Tane::Helpers::Example.cloudfuji_envs.should == {"HOSTING_PLATFORM"=> "developer"}
       end
     end
 
@@ -183,23 +183,23 @@ describe "Tane::Helpers" do
     end
 
     describe "mail_url" do
-      it "should return url to local app's Bushido::Mail#index action at/bushido/mail" do
-        mail_url = "#{::Tane::Helpers::Example.base_url}/bushido/mail"
+      it "should return url to local app's Cloudfuji::Mail#index action at/cloudfuji/mail" do
+        mail_url = "#{::Tane::Helpers::Example.base_url}/cloudfuji/mail"
         Tane::Helpers::Example.mail_url.should == mail_url
       end
     end
 
 
     describe "support_url" do
-      it "should return http://gobushido.com/api/support/message" do
-        support_url = "#{Tane::Helpers::Example.bushido_url}/support/v1/message"
+      it "should return http://gocloudfuji.com/api/support/message" do
+        support_url = "#{Tane::Helpers::Example.cloudfuji_url}/support/v1/message"
         Tane::Helpers::Example.support_url.should == support_url
       end
     end
 
     describe "post" do
       before :each do
-        Tane::Helpers::Example.should_receive(:bushido_envs).and_return({"BUSHIDO_APP_KEY"=>"abc123"})
+        Tane::Helpers::Example.should_receive(:cloudfuji_envs).and_return({"CLOUDFUJI_APP_KEY"=>"abc123"})
         @data = {}
         @url = "http://example.com"
         RestClient.should_receive(:put).with(@url, @data, :content_type => :json, :accept => :json).and_return(@data.to_json)

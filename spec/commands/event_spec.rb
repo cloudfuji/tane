@@ -3,7 +3,7 @@ require "spec_helper"
 describe Tane::Commands::Event do
 
   describe ".process" do
-    it "should post data to the local apps /bushido/data with the event" do
+    it "should post data to the local apps /cloudfuji/data with the event" do
       args = ["Test", "received", "{'foo' => 'bar'}"]
       event = {
         'category' => args.first,

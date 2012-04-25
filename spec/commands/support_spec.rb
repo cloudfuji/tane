@@ -7,16 +7,16 @@ describe Tane::Commands::Support do
   end
   
   describe ".process" do
-    it "should prompt the user for the message and send it to Bushido" do
+    it "should prompt the user for the message and send it to Cloudfuji" do
       Tane::Commands::Support.term.should_receive(:ask).and_return(@message)
-      Tane::Commands::Support.should_receive(:send_message_to_bushido).with(@message)
+      Tane::Commands::Support.should_receive(:send_message_to_cloudfuji).with(@message)
 
       Tane::Commands::Support.process([])
     end
   end
 
 
-  describe ".send_message_to_bushido" do
+  describe ".send_message_to_cloudfuji" do
 
     before :each do
       Tane::Commands::Support.should_receive(:email_from_credentials_or_prompt).and_return("valid_username")
@@ -31,11 +31,11 @@ describe Tane::Commands::Support do
     
     it "should display the message being sent" do
       Tane::Commands::Support.term.should_receive(:say).at_least(3)
-      Tane::Commands::Support.send_message_to_bushido(@message)
+      Tane::Commands::Support.send_message_to_cloudfuji(@message)
     end
 
-    it "should send a message to Bushido team" do
-      Tane::Commands::Support.send_message_to_bushido(@message)
+    it "should send a message to Cloudfuji team" do
+      Tane::Commands::Support.send_message_to_cloudfuji(@message)
     end
 
   end
