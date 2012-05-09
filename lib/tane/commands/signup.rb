@@ -7,7 +7,7 @@ class Tane::Commands::Signup < Tane::Commands::Base
 
       email, password = prompt_for_credentials
 
-      auth_token, errors = Tane::Helpers::Bushido.signup(email, password)
+      auth_token, errors = Tane::Helpers::Cloudfuji.signup(email, password)
 
       if auth_token.nil?
         term.say "Couldn't signup - "
@@ -35,7 +35,7 @@ Usage:
 
     tane signup
     
-Prompts you to signup for a Bushido account.
+Prompts you to signup for a Cloudfuji account.
 EOL
     end
   end

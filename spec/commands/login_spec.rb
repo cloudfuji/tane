@@ -27,13 +27,13 @@ describe Tane::Commands::Login do
   
   describe ".verify_or_signup" do
     it "should return the auth_token if the credentials are valid" do
-      Tane::Helpers::Bushido.should_receive(:verify_credentials).
+      Tane::Helpers::Cloudfuji.should_receive(:verify_credentials).
         and_return([@valid_auth_token, nil])
       Tane::Commands::Login.verify_or_signup(@valid_email, @valid_password).should == @valid_auth_token
     end
     
     it "should prompt for signup if the credentials are not valid" do
-      Tane::Helpers::Bushido.should_receive(:verify_credentials).
+      Tane::Helpers::Cloudfuji.should_receive(:verify_credentials).
         and_return([nil, "foobar errors"])
       Tane::Commands::Login.should_receive(:signup_and_notify)      
       Tane::Commands::Login.term.should_receive(:agree).and_return(true)
@@ -42,7 +42,7 @@ describe Tane::Commands::Login do
     end
 
     it "should display error messages and exit if user says no to signup" do
-      Tane::Helpers::Bushido.should_receive(:verify_credentials).
+      Tane::Helpers::Cloudfuji.should_receive(:verify_credentials).
         and_return([nil, "foobar errors"])
       Tane::Commands::Login.term.should_receive(:agree).and_return(false)
 

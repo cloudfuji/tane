@@ -22,9 +22,9 @@ module Tane
         options.transfer_type = :auto
         options.verbose = false
 
-        global_option :port,    '-p', '--port PORT',     Integer, "The port your local Bushido app is running on"
-        global_option :host,    '-n', '--host HOST',     String,  "The hostname where your local Bushido app is running"
-        global_option :scheme,  '-s', '--scheme SCHEME', String,  "Either http or https, whichever protocol your local Bushido app is using"
+        global_option :port,    '-p', '--port PORT',     Integer, "The port your local Cloudfuji app is running on"
+        global_option :host,    '-n', '--host HOST',     String,  "The hostname where your local Cloudfuji app is running"
+        global_option :scheme,  '-s', '--scheme SCHEME', String,  "Either http or https, whichever protocol your local Cloudfuji app is using"
         global_option :verbose, '-V', '--verbose',                "Output a lot of noise"
 
         opts = OptionParser.new do |opts|

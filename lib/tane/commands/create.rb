@@ -49,10 +49,10 @@ class Tane::Commands::Create < Tane::Commands::Base
                           "Lemonodor-fame is but a hack away!",
                           "Go forth to #{ app_name }, and hack for all you're worth - for all humankind!"]
 
-      bushirens = ["Sean", "Kevin", "Akash"]
+      fujis = ["Sean", "Kevin", "Akash"]
 
       success_message = success_messages[ rand(success_messages.length) ]
-      bushiren        = bushirens       [ rand(bushirens.length)         ]
+      fujis        = fujis[ rand(fujis.length)         ]
 
       FileUtils.mv("./tane.log", "#{ target_path }/log/tane.log")
       term.say "  Finished successfully!"
@@ -78,7 +78,7 @@ class Tane::Commands::Create < Tane::Commands::Base
 
           term.say "Launching your new app!"
           term.say "Check out once rails has finished booting http://localhost:3000"
-          term.say "#{bushiren} says, \"#{ success_message }\""
+          term.say "#{fujis} says, \"#{ success_message }\""
 
           # Do this in the background, it'll wait up to 120 seconds
           # for the rails server to start up and launch a browser as

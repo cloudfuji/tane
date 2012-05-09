@@ -3,7 +3,7 @@ require "spec_helper"
 describe Tane::Helpers::Cloudfuji do
 
   describe "cloudfuji_url" do
-    it "should return the http://bushid.do by default" do
+    it "should return the http://cloudfuji.com by default" do
       # To make sure it's overridden if set in tachi
       ENV['CLOUDFUJI_URL'] = nil
       Tane::Helpers::Cloudfuji.cloudfuji_url.should == "http://cloudfuji.com"
