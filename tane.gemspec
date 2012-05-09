@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = Tane::VERSION
   s.authors     = ["Cloudfuji Team"]
   s.email       = ["support@gocloudfuji.com"]
-  s.homepage    = ""
+  s.homepage    = "http://cloudfuji.com"
   s.summary     = %q{Enables local development of Cloudfuji apps}
   s.description = %q{This gem provides all the tools necessary to develop a rails app meant for deployment on Cloudfuji locally}
 
