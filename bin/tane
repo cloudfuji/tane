@@ -4,8 +4,9 @@ lib = File.expand_path(File.dirname(__FILE__) + '/../lib')
 $LOAD_PATH.unshift(lib) if File.directory?(lib) && !$LOAD_PATH.include?(lib)
 
 
-
-args = ARGV.dup
+# Ignore args for any commands following tane exec
+# => ["exec", "rails", "s", "-p", "3001"]  becomes  ["exec", "rails s -p 3001"]
+args = (i = ARGV.index 'exec') ? ARGV[0..i] << ARGV[i+1..-1].join(' ') : ARGV.dup
 ARGV.clear
 
 require 'tane'
